@@ -8,4 +8,5 @@ sh  mvn spring-boot:run
 ```
 It brings a convenient way to work in your local machine. 
 
-![alt text](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0.png "Running it...")
+
+[![asciicast](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0.png)](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0)

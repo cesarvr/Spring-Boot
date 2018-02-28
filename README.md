@@ -96,3 +96,16 @@ Hello World!!
 ##### Live Demo
 
 [![asciicast](https://asciinema.org/a/vYisX98uO9b9xr0XKWwUyW2SI.png)](https://asciinema.org/a/vYisX98uO9b9xr0XKWwUyW2SI)
+
+
+
+##### Using Openshift UI 
+
+The main difference using this method is that service is automatically expose. 
+
+![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/hello.gif?raw=true)
+
+
+
+
+

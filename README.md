@@ -42,6 +42,15 @@ It's a quick and convenient way to work in your local machine.
 [![asciicast](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0.png)](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0)
 
 
+## Openshift 
+
+### Trying Openshift 
+
+If you want to practice in local you can get the [oc-client](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md). 
+
+At the moment of writing oc-client work best with this old version of [Docker](https://download.docker.com/mac/stable/1.13.1.15353/Docker.dmg).
+
+
 ### Deploying in Openshift
 
 To deploy our code, we can create a new application:

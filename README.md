@@ -48,7 +48,7 @@ It's a quick and convenient way to work in your local machine.
 
 If you want to practice in local you can get the [oc-client](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md). 
 
-At the moment of writing oc-client work best with this old version of [Docker](https://download.docker.com/mac/stable/1.13.1.15353/Docker.dmg).
+At the moment of writing this document oc-client work best with this old version of [Docker](https://download.docker.com/mac/stable/1.13.1.15353/Docker.dmg).
 
 
 ### Deploying in Openshift

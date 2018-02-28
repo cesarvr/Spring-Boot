@@ -1,38 +1,32 @@
 # Spring Boot in Openshift
 
-This example is based in the hello world located in the [Spring website](https://spring.io/guides/gs/spring-boot/), I just prepared to make it work in Openshift.
+This example project is for people that want to start playing with Spring Boot in Openshift.
 
-### Contents
+Its based in the hello world located in the [Spring website](https://spring.io/guides/gs/spring-boot/), I just modify the ```pom.xml``` so the code can be deploy using the Wildfly/Openshift template.
+
+### Features
 
 It includes the following things:
 
-  - Git ignore configuration file.  
-  - Configuration for local development or Openshift Wildfly container.
-  - The Spring[ documentation](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Spring%20Boot%20Reference%20Guide.pdf), you can find it also in [here](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
+  - Git ignore configuration file.   
+  - The Spring[ documentation](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Spring%20Boot%20Reference%20Guide.pdf) in PDF or HTML version  [here](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
+
 
 ### Source Code
 
-
+In the example every time you make a call to the root URL ```/```, it will send back a greetings message.
 
 ```java
-package hello;
-
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 @RestController
 public class HelloController {
 
     @RequestMapping("/")
     public String index() {
-        return "Greetings from Spring Boot!";
+        return "Hello World!!";
     }
 
 }
 ```
-
-In the example every time you make a call to the root URL, it will send back a greetings message.
-
 
 ## Workflow
 
@@ -95,10 +89,8 @@ Now the best part let's make our first call.
 ```
 curl spring-boot-spring.127.0.0.1.nip.io
 
-Greetings from Spring Boot!
+Hello World!!
 ```
-
-
 
 
 ##### Live Demo

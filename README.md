@@ -9,7 +9,7 @@ Its based in the hello world located in the [Spring website](https://spring.io/g
 It includes the following things:
 
   - Git ignore configuration file.   
-  - The Spring[ documentation](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Spring%20Boot%20Reference%20Guide.pdf) in PDF, HTML version can be found [here](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
+  - The Spring[ documentation](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Spring%20Boot%20Reference%20Guide.pdf) in PDF, HTML version can be foundg [here](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
 
 
 ### Source Code
@@ -36,7 +36,7 @@ To work in local you can execute:
 ```sh
   mvn spring-boot:run
 ```
-It brings a convenient way to work in your local machine.
+It's a quick and convenient way to work in your local machine.
 
 
 [![asciicast](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0.png)](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0)

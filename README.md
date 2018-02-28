@@ -77,7 +77,7 @@ Now we know the name, we expose the service this way:
 oc expose svc spring-boot
 ```
 
-Expose assign a route to our service we can see the details with ```oc get routes```, and we will get:
+Now our service has a route, we can see the details with ```oc get routes```:
 
 ```
 NAME          HOST/PORT                             PATH      SERVICES      PORT       TERMINATION   WILDCARD

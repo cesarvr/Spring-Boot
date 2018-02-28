@@ -3,8 +3,8 @@
 This example is based in the hello world located in the [Spring website](https://spring.io/guides/gs/spring-boot/), I just prepared to make it work in Openshift.
 
 To work in local you can execute:
-```
-sh  mvn spring-boot:run 
+```sh
+ mvn spring-boot:run 
 ```
 It brings a convenient way to work in your local machine. 
 

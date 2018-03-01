@@ -59,10 +59,10 @@ To deploy our code, we can create a new application:
 oc new-app wildfly:10.0~https://github.com/cesarvr/Spring-Boot
 ```
 
-This will take the project through various steps:
+This will create an application by running following steps:
 
 - **Building** This will basically clone the project, fetch all dependencies and push the image the registry.
-- **Deploy** As soon as the image is registered, it will be deploy in the form of a Pod, after that will be accessible.
+- **Deploy** As soon as the image is registered, it will be deploy in the form of a Pod, after that will be ready to accept request.
 
 #### Expose
 

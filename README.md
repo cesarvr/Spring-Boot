@@ -151,9 +151,23 @@ In this example project we are using Maven, but instructions should be similar i
 
 ### Building a Pipeline
 
-Next we need to go to Jenkin’s home, press the menu **new items** and choose a name for your project and check Pipeline option. 
+We need to create a Jenkins Pipeline, easy we just need to go to the home, press the menu **new items** and choose a name for your project and check Pipeline option. 
 
 ![Jenkins Pipeline](https://github.com/cesarvr/Spring-Boot/blob/master/docs/newPipeline.png?raw=true)
+
+#### Parameterize Build
+ This
+ First we need to check the box this project is parameterized and we create 3 parameters: 
+
+* GIT_URL 
+  * We set here the git repository, example: https://github.com/cesarvr/Spring-Boot 
+
+* BUILD_CONFIG 
+  * We need here the name of our builder configuration object you can know this by doing: oc get bc, I got hello-spring-boot.
+
+* DEPLOY_CONFIG 
+  * This maybe is not necessary for simple projects but if you are doing something more sophisticated it become handy, if you don’t know the name of your deployment configuration, just do: oc get dc, I got hello-spring-boot
+
 
 
 ```groovy

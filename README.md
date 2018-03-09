@@ -9,7 +9,7 @@ Its based in the hello world located in the [Spring website](https://spring.io/g
 It includes the following things:
 
   - Git ignore configuration file.   
-  - The Spring[ documentation](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Spring%20Boot%20Reference%20Guide.pdf) in PDF, HTML version can be foundg [here](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
+  - The Spring[ documentation](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Spring%20Boot%20Reference%20Guide.pdf) in PDF, HTML version can be found [here](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/).
 
 
 ### Source Code
@@ -42,11 +42,11 @@ It's a quick and convenient way to work in your local machine.
 [![asciicast](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0.png)](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0)
 
 
-## Openshift 
+## Openshift
 
-### Trying Openshift 
+### Trying Openshift
 
-If you want to practice in local you can get the [oc-client](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md). 
+If you want to practice in local you can get the [oc-client](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md).
 
 At the moment of writing this document oc-client work best with this old version of [Docker](https://download.docker.com/mac/stable/1.13.1.15353/Docker.dmg).
 
@@ -108,13 +108,63 @@ Hello World!!
 
 
 
-##### Using Openshift UI 
+##### Using Openshift UI
 
-The main difference using this method is that service is automatically expose. 
+The main difference using this method is that service is automatically expose.
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/hello.gif?raw=true)
 
 
+### Configuring CI
+
+
+Now we have an Openshift application (Build, Deploy, Expose), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
 
 
+
+```groovy
+node {
+    stage('Preparation') { // for display purposes
+    // Get some code from a GitHub repository
+    sh "rm -rf target"
+    git "${params.GIT_URL}"
+    // Get the Maven tool.
+    // ** NOTE: This 'M3' Maven tool must be configured
+    // **       in the global configuration.           
+    mvnHome = tool 'Maven353'
+ }
+
+ stage('Build') {
+    // Run the maven build
+    sh "'${mvnHome}/bin/mvn' test || exit 0"
+ }
+
+
+
+ stage('Publish') {
+      //user and password should be provided by a Jenkins Credential Manager
+      sh '''oc login 192.168.65.2:8443 --token=k3NFaYRHiTwS2KpJNBldS9p7XVIJrofR5PPf6K7FmVs --insecure-skip-tls-verify
+
+            #We push our generated binaries and start an Openshift build.
+            oc start-build $BUILD_CONFIG --from-dir=\'.\' -F
+
+            #After build is finish, we now look watch the deployment.
+            oc rollout status $DC_CONFIG -w
+
+            #Bye Bye...
+            oc logout'''
+   }
+
+   stage('Integration') {
+    // Put here some external validation call to your Pod    
+   }
+
+   stage('Generating Report') {
+    junit '**/target/surefire-reports/TEST-*.xml'
+   }
+
+
+}
+
+```

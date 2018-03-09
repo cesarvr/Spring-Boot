@@ -123,7 +123,7 @@ Now we have an Openshift application (Build, Deploy, Expose), this is very good 
 
 
 
-```groovy
+```js
 node {
     stage('Preparation') { // for display purposes
     // Get some code from a GitHub repository

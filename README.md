@@ -114,16 +114,63 @@ The main difference using this method is that service is automatically expose.
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/hello.gif?raw=true)
 
+<BR>
+<BR>
 
-### Configuring CI
-
+## Configuring CI
 
 Now we have an Openshift application (Build, Deploy, Expose), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
+First go to the Openshift console, project catalago and click to create a new Jenkins application, the advantage by doing this is this application get the permission to operate this project. 
+
+![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins.png?raw=true)
 
 
 
-```js
+### Maven
+
+In this example project we are using Maven, but instructions should be similar if you are using other package manager. Now we need to go to: 
+
+* Manage Jenkins -> Manage Plugins. 
+
+![Manage Plugins](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Manage.png?raw=true)
+
+
+* Install Pipeline Maven Integration Jenkins Plugin, Then just press the button install without restart.
+
+![Maven Integration Plugin](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Maven%20Plugin.png?raw=true)
+
+* We now need to install Maven globally for Jenkins, navigate to Manage Jenkins (Again) -> Global Tool Configuration
+
+![Maven Configuration](https://github.com/cesarvr/Spring-Boot/blob/master/docs/MavenConfig.png?raw=true)
+
+* Then go to the Maven section and choose your Maven version, for this guide I will choose 3.5.3 and set the name to Maven353 as we going to need it later.
+
+* Then press save. We finish the boring part, let’s create our pipeline. 
+
+
+### Building a Pipeline
+
+We need to create a Jenkins Pipeline, easy we just need to go to the home, press the menu **new items** and choose a name for your project and check Pipeline option. 
+
+![Jenkins Pipeline](https://github.com/cesarvr/Spring-Boot/blob/master/docs/newPipeline.png?raw=true)
+
+#### Parameterize Build
+ This
+ First we need to check the box this project is parameterized and we create 3 parameters: 
+
+* GIT_URL 
+  * We set here the git repository, example: https://github.com/cesarvr/Spring-Boot 
+
+* BUILD_CONFIG 
+  * We need here the name of our builder configuration object you can know this by doing: oc get bc, I got hello-spring-boot.
+
+* DEPLOY_CONFIG 
+  * This maybe is not necessary for simple projects but if you are doing something more sophisticated it become handy, if you don’t know the name of your deployment configuration, just do: oc get dc, I got hello-spring-boot
+
+
+
+```groovy
 node {
     stage('Preparation') { // for display purposes
     // Get some code from a GitHub repository

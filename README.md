@@ -8,6 +8,7 @@ Table of contents
 <!--te-->
 
 
+<a name="openshift"/>
 
 # Spring Boot in Openshift
 
@@ -127,6 +128,8 @@ The main difference using this method is that service is automatically expose.
 
 <BR>
 <BR>
+  
+<a name="continous"/>
 
 ## Configuring Continuos Integration
 

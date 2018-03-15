@@ -1,3 +1,15 @@
+
+Table of contents
+=================
+
+<!--ts-->
+   * [Spring Boot in Openshift](#openshift)
+   * [Continuos Integration](#continous)
+   * [Dependency](#dependency)
+<!--te-->
+
+
+
 # Spring Boot in Openshift
 
 This example project is for people that want to start playing with Spring Boot in Openshift.
@@ -126,92 +138,160 @@ First go to the Openshift console, project catalago and click to create a new Je
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins.png?raw=true)
 
 
-
+<br><br>
 ### Maven
 
 In this example project we are using Maven, but instructions should be similar if you are using other package manager. Now we need to go to: 
 
-* Manage Jenkins -> Manage Plugins. 
+Manage Jenkins -> Manage Plugins. 
 
 ![Manage Plugins](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Manage.png?raw=true)
 
 
-* Install Pipeline Maven Integration Jenkins Plugin, Then just press the button install without restart.
+Install Pipeline Maven Integration Jenkins Plugin, Then just press the button install without restart.
 
 ![Maven Integration Plugin](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Maven%20Plugin.png?raw=true)
 
-* We now need to install Maven globally for Jenkins, navigate to Manage Jenkins (Again) -> Global Tool Configuration
+We now need to install Maven globally for Jenkins, navigate to Manage Jenkins (Again) -> Global Tool Configuration
 
 ![Maven Configuration](https://github.com/cesarvr/Spring-Boot/blob/master/docs/MavenConfig.png?raw=true)
 
-* Then go to the Maven section and choose your Maven version, for this guide I will choose 3.5.3 and set the name to Maven353 as we going to need it later.
+Then go to the Maven section and choose your Maven version, for this guide I will choose 3.5.3 and set the name to **Maven353** as we going to need it later.
 
-* Then press save. We finish the boring part, let’s create our pipeline. 
+Then press save. We finish the boring part, let’s create our pipeline. 
 
 
-### Building a Pipeline
+<br><br>
+### Creating Jenkins Pipeline Project
 
 We need to create a Jenkins Pipeline, easy we just need to go to the home, press the menu **new items** and choose a name for your project and check Pipeline option. 
 
 ![Jenkins Pipeline](https://github.com/cesarvr/Spring-Boot/blob/master/docs/newPipeline.png?raw=true)
 
-#### Parameterize Build
- This
- First we need to check the box this project is parameterized and we create 3 parameters: 
 
-* GIT_URL 
-  * We set here the git repository, example: https://github.com/cesarvr/Spring-Boot 
+<br><br>
+#### Adding Some Flexibility 
 
-* BUILD_CONFIG 
-  * We need here the name of our builder configuration object you can know this by doing: oc get bc, I got hello-spring-boot.
+One way to make our pipeline more reusable is to allow the build to accept custom parameters, is very useful is we want to clone and reuse, to activate it we need to check the box "this project is parameterized" and then we are going to create 3 parameters: 
 
-* DEPLOY_CONFIG 
-  * This maybe is not necessary for simple projects but if you are doing something more sophisticated it become handy, if you don’t know the name of your deployment configuration, just do: oc get dc, I got hello-spring-boot
+* **GIT_URL** 
+  We set here the git repository, example: https://github.com/cesarvr/Spring-Boot 
 
+* **BUILD_CONFIG** 
+  We need here the name of our builder configuration object you can check this in the Openshift Console or by doing: 
+  ```oc get bc```
 
+* **DEPLOY_CONFIG** 
+  This maybe is not necessary for simple projects but if you are doing something more sophisticated it can become handy, to see list your deployment config do:
+  ```oc get dc```
 
-```groovy
-node {
-    stage('Preparation') { // for display purposes
-    // Get some code from a GitHub repository
-    sh "rm -rf target"
-    git "${params.GIT_URL}"
-    // Get the Maven tool.
-    // ** NOTE: This 'M3' Maven tool must be configured
-    // **       in the global configuration.           
-    mvnHome = tool 'Maven353'
+We should end up with something like this: 
+
+![Env vars](https://github.com/cesarvr/Spring-Boot/blob/master/docs/EnvVars.png?raw=true)
+
+<br><br>
+### Pipeline Script  
+#### Getting Started
+
+First we need to declare the node where this pipeline will get executed, as we are going to use a standalone Jenkins local to our config project we can keep it simple.
+
+```
+node { 
+  // Declare stages here 
+
+}
+```
+
+#### Preparation 
+
+In the first stage we are going to clone the repository **GIT_CLONE** and declare a mvnHome pointing to our Maven configuration **Maven353** defined above.  
+
+```
+node { 
+ // Declare stages here 
+ def mvnHome
+
+ stage('Preparation') { 
+
+     // Get some code from a GitHub repository
+     git "${params.GIT_URL}"
+
+     // Get the Maven tool.
+     // ** NOTE: This 'M3' Maven tool must be configured
+     // **       in the global configuration.           
+     mvnHome = tool 'Maven353'
  }
+}
+``` 
 
+#### Unit Test
+
+Once we got the code we run the test task, I put there a little hack at the end because the process ends with a non-zero value in the case that test fail and I want to read the report after that.  
+
+```
  stage('Build') {
     // Run the maven build
     sh "'${mvnHome}/bin/mvn' test || exit 0"
  }
 
+``` 
 
+#### Report
 
- stage('Publish') {
-      //user and password should be provided by a Jenkins Credential Manager
-      sh '''oc login 192.168.65.2:8443 --token=k3NFaYRHiTwS2KpJNBldS9p7XVIJrofR5PPf6K7FmVs --insecure-skip-tls-verify
+Everytime we run a report is generated. Here we just read that report and extract the state of the build, if a test fails the build is marked as unstable.  
 
-            #We push our generated binaries and start an Openshift build.
-            oc start-build $BUILD_CONFIG --from-dir=\'.\' -F
-
-            #After build is finish, we now look watch the deployment.
-            oc rollout status $DC_CONFIG -w
-
-            #Bye Bye...
-            oc logout'''
-   }
-
-   stage('Integration') {
-    // Put here some external validation call to your Pod    
-   }
-
-   stage('Generating Report') {
+```
+ stage('Generating Unit Test Report') {
     junit '**/target/surefire-reports/TEST-*.xml'
-   }
+ }
+ 
+``` 
 
+#### Build & Deploy
 
+Here I check the status of the deployment if the build is unstable then I just ignore this step and finish the build. If the build state is successful state then I tell our project to start the build. 
+
+```
+stage('Build & Deploy') { 
+  if(currentBuild.result!='UNSTABLE')
+    sh '''oc login 192.168.65.2:8443 --token=bMG7rvw71f_z8w... --insecure-skip-tls-verify
+       
+          #We push our generated binaries and start an Openshift build. 
+          oc start-build $BUILD_CONFIG --from-dir=\'.\' -F 
+          
+          #After build is finish, we now look watch the deployment.
+          oc rollout status $DEPLOY_CONFIG -w
+          
+          #Bye Bye...
+          oc logout'''
 }
 
 ```
+
+
+This line log us in Openshift project, you can get the token using oc whoami -t , the IP address is the one of your Openshift installation. 
+
+```
+oc login 192.168.65.2:8443 --token=bMG7rvw71f_z8w... --insecure-skip-tls-verify
+```
+
+Here we tell Openshift to make a new build and we want to push the content of this folder. This will increase the image generation speed. 
+
+```
+oc start-build $BUILD_CONFIG --from-dir=\'.\' -F 
+```
+
+After this step finishes we just wait for the deployment phase to finish.
+
+```
+oc rollout status $DEPLOY_CONFIG -w 
+```
+
+
+<br><br>
+#### Pipeline Script
+<script src="https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3.js"></script>
+
+
+
+

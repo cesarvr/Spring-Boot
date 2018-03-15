@@ -293,7 +293,7 @@ oc rollout status $DEPLOY_CONFIG -w
 <br><br>
 #### Pipeline Script
 
-Full Jenkins script is this [gitlab](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3.js).
+Full Jenkins script is this [Gitlab](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3).
 
 
 

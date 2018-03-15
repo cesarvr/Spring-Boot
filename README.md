@@ -4,8 +4,7 @@ Table of contents
 
 <!--ts-->
    * [Spring Boot in Openshift](#openshift)
-   * [Continuos Integration](#continous)
-   * [Dependency](#dependency)
+   * [Configuring Continuos Integration](#continous)
 <!--te-->
 
 
@@ -129,7 +128,7 @@ The main difference using this method is that service is automatically expose.
 <BR>
 <BR>
 
-## Configuring CI
+## Configuring Continuos Integration
 
 Now we have an Openshift application (Build, Deploy, Expose), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 

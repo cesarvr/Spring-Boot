@@ -285,17 +285,23 @@ This line log us in Openshift project, you can get the token using oc whoami -t 
 oc login 192.168.65.2:8443 --token=bMG7rvw71f_z8w... --insecure-skip-tls-verify
 ```
 
-Here we tell Openshift to make a new build and we want to push the content of this folder. This will increase the image generation speed. 
+Here we tell Openshift to make a new [build](https://docs.openshift.com/enterprise/3.2/dev_guide/builds.html) and we want to push the content of this folder. This will speed up the image generation speed. 
 
 ```
 oc start-build $BUILD_CONFIG --from-dir=\'.\' -F 
 ```
 
-After this step finishes we just wait for the deployment phase to finish.
+After this step finishes we just wait for the [deployment](https://docs.openshift.com/enterprise/3.0/dev_guide/deployments.html) phase to finish.
 
 ```
 oc rollout status $DEPLOY_CONFIG -w 
 ```
+
+Here you can find the definition for the command we are using here: 
+
+* [oc login](https://docs.openshift.com/enterprise/3.2/cli_reference/get_started_cli.html)
+* [oc start-build](https://docs.openshift.org/latest/cli_reference/basic_cli_operations.html#start-build)
+* [oc rollout](https://docs.openshift.com/container-platform/3.3/dev_guide/deployments/basic_deployment_operations.html#viewing-a-deployment)
 
 
 <br><br>

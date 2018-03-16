@@ -141,13 +141,15 @@ First go to the Openshift console, project catalago and click to create a new Je
 
 When the deployment finish you should see something like this:
 
-![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins-deploy.png?raw=true)
+![Jenkins Deployment](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins-deploy.png?raw=true)
 
-Now you just need to click the router link (https://jenkins-helloworld.127.0.0.1…, for the case below.) 
+Now you just need to click the router link (https://jenkins-helloworld.127.0.0.1…, for the case below.), this will take you to the Jenkins home. 
+
+![Jenkins Home](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins-home.png?raw=true)
 
 
 <br><br>
-### Maven
+### Configuring Maven
 
 In this example project we are using Maven, but instructions should be similar if you are using other package manager. Now we need to go to: 
 

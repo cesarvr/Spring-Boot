@@ -118,9 +118,11 @@ Hello World!!
 
 [![asciicast](https://asciinema.org/a/vYisX98uO9b9xr0XKWwUyW2SI.png)](https://asciinema.org/a/vYisX98uO9b9xr0XKWwUyW2SI)
 
+<BR>
+<BR>
 
 
-##### Using Openshift UI
+### Using Openshift UI
 
 The main difference using this method is that service is automatically expose.
 

@@ -4,11 +4,11 @@ Table of contents
 
 <!--ts-->
    * [Spring Boot in Openshift](#openshift)
-   * [Continuos Integration](#continous)
-   * [Dependency](#dependency)
+   * [Configuring Continuous Integration](#continous)
 <!--te-->
 
 
+<a name="openshift"/>
 
 # Spring Boot in Openshift
 
@@ -128,8 +128,10 @@ The main difference using this method is that service is automatically expose.
 
 <BR>
 <BR>
+  
+<a name="continous"/>
 
-## Configuring CI
+## Configuring Continuous Integration
 
 Now we have an Openshift application (Build, Deploy, Expose), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
@@ -290,7 +292,8 @@ oc rollout status $DEPLOY_CONFIG -w
 
 <br><br>
 #### Pipeline Script
-<script src="https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3.js"></script>
+
+Full Jenkins script is this [Gitlab](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3).
 
 
 

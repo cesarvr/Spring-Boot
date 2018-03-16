@@ -309,7 +309,7 @@ Here you can find the definition for the command we are using here:
 <br><br>
 #### Pipeline Script
 
-Full Jenkins script is this [Gitlab](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3).
+Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3).
 
 
 

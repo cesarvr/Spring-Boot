@@ -264,27 +264,27 @@ Everytime we run a report is generated. Here we just read that report and extrac
 Here I check the status of the deployment if the build is unstable then I just ignore this step and finish the build. If the build state is successful state then I tell our project to start the build. 
 
 ```
- stage('Build & Deploy in Openshift') {
+stage('Build & Deploy in Openshift') {
       /*
        * User and password should be provided by a Jenkins Credential Manager
        * Also we check the Build Status as we don't want to deploy code that is not 100% unit tested.
+       *
+       *  $BUILD_CONFIG, $DC_CONFIG are Jenkins project parameters we declared above. 
+       *
        */
       if(currentBuild.result != 'UNSTABLE')
       sh '''
             oc login <IP-Address> --token=k3NFaYRHiTwS2KpJNBldS9.... --insecure-skip-tls-verify
-            
-            # We push our generated binaries and start an Openshift build.
+
+            #We push our generated binaries and start an Openshift build.
             oc start-build $BUILD_CONFIG --from-dir=\'.\' -F
-            
-            # After build is finish, deployment is automatically trigger by Openshift 
-            # so we need the next command <oc rollout status> to follow the progress.
-            
+
+            #After build is finish, we now look watch the deployment.
             oc rollout status $DC_CONFIG -w
-            
-            # Bye Bye ...
+
+            #Bye Bye...
             oc logout'''
    }
-
 
 ```
 

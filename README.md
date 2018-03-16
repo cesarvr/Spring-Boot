@@ -241,7 +241,7 @@ node {
 Once we got the code we run the test task, I put there a little hack at the end because the process ends with a non-zero value in the case that test fail and I want to read the report after that.  
 
 ```
- stage('Build') {
+ stage('Build & Test in Jenkins') {
     // Run the maven build
     sh "'${mvnHome}/bin/mvn' test || exit 0"
  }
@@ -264,7 +264,7 @@ Everytime we run a report is generated. Here we just read that report and extrac
 Here I check the status of the deployment if the build is unstable then I just ignore this step and finish the build. If the build state is successful state then I tell our project to start the build. 
 
 ```
-stage('Build & Deploy') { 
+stage('Build & Deploy in Openshift') { 
   if(currentBuild.result!='UNSTABLE')
     sh '''oc login 192.168.65.2:8443 --token=bMG7rvw71f_z8w... --insecure-skip-tls-verify
        

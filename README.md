@@ -184,7 +184,7 @@ We need to create a Jenkins Pipeline, easy we just need to go to the home, press
 <br><br>
 #### Adding Some Flexibility 
 
-One way to make our pipeline more reusable is to allow the build to accept custom parameters, is very useful is we want to clone and reuse, to activate it we need to check the box "this project is parameterized" and then we are going to create 3 parameters: 
+One way to make our pipeline more reusable is to allow the build to accept custom parameters, is very useful if we want to clone and reuse, to activate it we need to check the box "this project is parameterized" and then we are going to create 3 parameters: 
 
 * **GIT_URL** 
   We set here the git repository, example: https://github.com/cesarvr/Spring-Boot 

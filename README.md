@@ -137,7 +137,7 @@ The main difference using this method is that service is automatically expose.
 
 Now we have an Openshift application (Build, Deploy, Expose), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
-First go to the Openshift console, project catalago and click to create a new Jenkins application, the advantage by doing this is this application get the permission to operate this project. 
+First go to the Openshift console, project catalogue and click to create a new Jenkins application, the advantage by doing this is this application get the permission to operate this project. 
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins.png?raw=true)
 

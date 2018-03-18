@@ -238,7 +238,7 @@ node {
 
 #### Unit Test
 
-Once we got the code we run the test task, I put there a little hack at the end because the process ends with a non-zero value in the case that test fail and I want to read the report after that.  
+Once we have the code we run the test task. I put a little hack at the end because if the test case fail, the process will end with a non-zero value, if this happens the build will be marked as failed and other stages will be aborted and we want to read the report which is the next stage after this one.
 
 ```
  stage('Build & Test in Jenkins') {
@@ -250,7 +250,7 @@ Once we got the code we run the test task, I put there a little hack at the end 
 
 #### Report
 
-Everytime we run a report is generated. Here we just read that report and extract the state of the build, if a test fails the build is marked as unstable.  
+Everytime we run a report is generated. Here we just read the unit test report, which will help us to identify the problem. If a test fails the build is marked as unstable.  
 
 ```
  stage('Generating Unit Test Report') {
@@ -261,7 +261,7 @@ Everytime we run a report is generated. Here we just read that report and extrac
 
 #### Build & Deploy
 
-Here I check the status of the deployment if the build is unstable then I just ignore this step and finish the build. If the build state is successful state then I tell our project to start the build. 
+Here I check the status of the deployment if the build is unstable then I just ignore this step and finish the build. If the build state is successful state then I tell our Openshift to start a new build and deployment of our code into a container. 
 
 ```
 stage('Build & Deploy in Openshift') {

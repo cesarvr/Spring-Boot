@@ -42,7 +42,7 @@ public class HelloController {
 
 ## Workflow
 
-### Working in local
+### Working in Local
 
 To work in local you can execute:
 ```sh

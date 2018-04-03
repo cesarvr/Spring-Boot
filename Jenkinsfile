@@ -9,7 +9,7 @@
   oc set probe dc spring-demo-dev --liveness --get-url=http://:8080/health
 */
 
-def appName = "${params.GIT_URL}"
+def appName = "${params.PROJECT_NAME}"
 def imageBuildConfig = appName
 def deploymentConfig = appName
 

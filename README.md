@@ -5,7 +5,7 @@ Table of contents
 <!--ts-->
    * [Spring Boot in Openshift](#openshift)
    * [Configuring Continuous Integration](#continous)
-   * [More faster Continuous Integration](#faster)
+   * [Faster Continuous Integration](#faster)
 <!--te-->
 
 
@@ -324,7 +324,7 @@ Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d
 <br>  
 <a name="continous"/>
 
-# More Faster Continuos Integration
+# Faster Continuos Integration
 
 This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift JenkinsPipeline/Builder which take care of spinning up the necessary Jenkins automatically.
 
@@ -365,7 +365,7 @@ After we complete this step, Openshift will deploy for us the following things:
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/pipeline.png?raw=true)
 
 
-And thats it, you just need to setup your Webhooks and start working in your app. 
+And thats it, you just need to setup your Webhooks and start working in your app, thanks to @martin. 
 
 
 

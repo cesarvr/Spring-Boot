@@ -5,6 +5,7 @@ Table of contents
 <!--ts-->
    * [Spring Boot in Openshift](#openshift)
    * [Configuring Continuous Integration](#continous)
+   * [More faster Continuous Integration](#faster)
 <!--te-->
 
 
@@ -318,6 +319,58 @@ Here you can find the definition for the command we are using here:
 #### Pipeline Script
 
 Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3).
+
+
+<br>  
+<a name="continous"/>
+
+# More Faster Continuos Integration
+
+This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift JenkinsPipeline/Builder which take care of spinning up the necessary Jenkins automatically.
+
+
+First we create our project as described before. 
+
+```sh
+  oc new-app wildfly:10.0~https://github.com/cesarvr/Spring-Boot --name=spring-boot
+```
+
+Now we need to create our JenkinsPipeline/Builder object. 
+
+```sh
+  oc new-build wildfly:10.0~https://github.com/cesarvr/Spring-Boot --name=spring-app --strategy=pipeline
+```
+
+This what happen: 
+
+- A Builder object with the named **spring-app** is created. 
+- We specify the Git URL with the [Jenkins Pipeline script](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile) definition.
+
+If you remember, our Pipeline script accepts a parameter to target our deployment, so we need to tell our Builder that we want to define one parameter this parameter is called [PROJECT_NAME](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L12), we can do this by writing: 
+
+```sh
+  oc set env bc/spring-app PROJECT_NAME=spring-boot
+```
+
+This will inject **spring-boot** as the pre-defined value. 
+
+
+After we complete this step, Openshift will deploy for us the following things: 
+
+- Jenkins instance
+- New Pipeline project 
+- Integration of this Pipeline project with Openshift console. 
+
+
+![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/pipeline.png?raw=true)
+
+
+And thats it, you just need to setup your Webhooks and start working in your app. 
+
+
+
+
+
 
 
 

@@ -10,8 +10,8 @@
 */
 
 def appName = "spring-demo"
-def imageBuildConfig = appName + "-bake"
-def deploymentConfig = appName + "-dev"
+def imageBuildConfig = appName
+def deploymentConfig = appName
 
 pipeline {
   agent {

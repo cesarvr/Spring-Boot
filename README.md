@@ -320,8 +320,6 @@ Here you can find the definition for the command we are using here:
 
 Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d8c0259f521a0a0319c3).
 
-
-<br>  
 <a name="continous"/>
 
 # Faster Continuos Integration

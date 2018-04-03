@@ -365,7 +365,9 @@ After we complete this step, Openshift will deploy for us the following things:
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/pipeline.png?raw=true)
 
 
-And thats it, you just need to setup your Webhooks and start working in your app, thanks to @martin. 
+And thats it, you just need to setup your Webhooks and start working in your app.
+
+Thanks to [martineg](https://github.com/martineg), for his help in this one. 
 
 
 

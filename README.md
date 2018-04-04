@@ -324,7 +324,7 @@ Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d
 
 # Faster Continuos Integration
 
-This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift JenkinsPipeline/Builder which take care of spinning up the necessary Jenkins automatically.
+This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift [JenkinsPipeline/Builder](https://docs.openshift.com/container-platform/3.7/dev_guide/openshift_pipeline.html#jenkins-pipeline-strategy) which take care of setup all the necessary components and just need from you a Jenkins script file.
 
 
 First we create our project as described before. 
@@ -333,18 +333,15 @@ First we create our project as described before.
   oc new-app wildfly:10.0~https://github.com/cesarvr/Spring-Boot --name=spring-boot
 ```
 
-Now we need to create our JenkinsPipeline/Builder object. 
+Now we need to create our BuilderConfig with strategy type JenkinsPipeline.
 
 ```sh
   oc new-build wildfly:10.0~https://github.com/cesarvr/Spring-Boot --name=spring-app --strategy=pipeline
 ```
 
-This what happen: 
+A BuilderConfig object named spring-app is created, we pass the Git URL with the Jenkins Pipeline script definition.
 
-- A Builder object with the named **spring-app** is created. 
-- We specify the Git URL with the [Jenkins Pipeline script](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile) definition.
-
-If you remember, our Pipeline script accepts a parameter to target our deployment, so we need to tell our Builder that we want to define one parameter this parameter is called [PROJECT_NAME](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L12), we can do this by writing: 
+If you remember, our Jenkins pipeline script accepts a parameter to target our app (Builder, Deployment) using a parameter called  [PROJECT_NAME](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L12), we can do this by writing:
 
 ```sh
   oc set env bc/spring-app PROJECT_NAME=spring-boot
@@ -352,11 +349,16 @@ If you remember, our Pipeline script accepts a parameter to target our deploymen
 
 This will inject **spring-boot** as the pre-defined value. 
 
+Next we can start our pipeline:
+
+```sh
+  oc start-build bc/spring-app
+```
 
 After we complete this step, Openshift will deploy for us the following things: 
 
-- Jenkins instance
-- New Pipeline project 
+- Jenkins instance, if this was created before then it jumps this step.
+- Add a new pipeline project. 
 - Integration of this Pipeline project with Openshift console. 
 
 

@@ -324,7 +324,7 @@ Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d
 
 # Faster Continuos Integration
 
-This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift [JenkinsPipeline/Builder](https://docs.openshift.com/container-platform/3.7/dev_guide/openshift_pipeline.html#jenkins-pipeline-strategy) which take care of setup all the necessary components and just need from you a Jenkins script file.
+This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift [JenkinsPipeline/Builder](https://docs.openshift.com/container-platform/3.7/dev_guide/openshift_pipeline.html#jenkins-pipeline-strategy) which take care of setup all the necessary components. All you need is a Jenkins script file.
 
 
 First we create our project as described before. 
@@ -355,14 +355,15 @@ Next we can start our pipeline:
   oc start-build bc/spring-app
 ```
 
-After we complete this step, Openshift will deploy for us the following things: 
+After we complete above step, Openshift will perform the following steps: 
 
-- Jenkins instance, if this was created before then it jumps this step.
-- Add a new pipeline project. 
-- Integration of this Pipeline project with Openshift console. 
+- Jenkins instance. The step is skipped if it was already created.
+- Add a new pipeline project and includes the above pipeline within this project. 
 
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/pipeline.png?raw=true)
+
+- Integrates with Openshift Console, this means that you can check the pipeline status from the dashboard. 
 
 
 And thats it, you just need to setup your Webhooks and start working in your app.

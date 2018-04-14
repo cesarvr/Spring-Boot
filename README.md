@@ -368,7 +368,7 @@ After we complete above step, Openshift will perform the following steps:
 
 And thats it, you just need to setup your Webhooks and start working in your app.
 
-Thanks to [martineg](https://github.com/martineg), for his help in this one. 
+Thanks to [martineg](https://github.com/martineg) and [Prima](https://github.com/primashah), for his help in this one. 
 
 
 

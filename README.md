@@ -324,7 +324,7 @@ Full Jenkins script is this [Gist](https://gist.github.com/cesarvr/fe524d24f259d
 
 # Faster Continuos Integration
 
-This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift [JenkinsPipeline/Builder](https://docs.openshift.com/container-platform/3.7/dev_guide/openshift_pipeline.html#jenkins-pipeline-strategy) which take care of setup all the necessary components. All you need is a Jenkins script file.
+This is an alternative and faster approach, which allow you to use Openshift integration with Jenkins. It works by creating a Openshift [JenkinsPipeline/Builder](https://docs.openshift.com/container-platform/3.7/dev_guide/openshift_pipeline.html#jenkins-pipeline-strategy) which take care of setup all the necessary components. All you need is a [Jenkins script file](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile), in this case the file is provided as a part of the project.
 
 
 First we create our project as described before. 

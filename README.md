@@ -365,16 +365,6 @@ After we complete above step, Openshift will perform the following steps:
 
 - Integrates with Openshift Console, this means that you can check the pipeline status from the dashboard. 
 
-
 And thats it, you just need to setup your Webhooks and start working in your app.
 
 Thanks to [martineg](https://github.com/martineg) and [Prima](https://github.com/primashah), for the help with this one. 
-
-
-
-
-
-
-
-
-

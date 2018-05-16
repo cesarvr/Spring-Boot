@@ -37,13 +37,13 @@ pipeline {
         echo "Trigger image build"
         script {
           openshift.withCluster() {
-            openshift.selector("bc", imageBuildConfig).startBuild("--from-file=target/ROOT.jar", "--wait")
+            openshift.selector("bc", imageBuildConfig).startBuild("--from-file=target/ROOT.war", "--wait")
             }
           }
         }
       post {
         success {
-          archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
+          archiveArtifacts artifacts: 'target/**.war', fingerprint: true
         }
       }
     }

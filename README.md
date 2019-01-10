@@ -208,7 +208,7 @@ We should end up with something like this:
 
 First we need to declare the node where this pipeline will get executed, as we are going to use a standalone Jenkins local to our config project we can keep it simple.
 
-```
+```groovy
 node { 
   // Declare stages here 
 
@@ -219,7 +219,7 @@ node {
 
 In the first stage we are going to clone the repository **GIT_CLONE** and declare a mvnHome pointing to our Maven configuration **Maven353** defined above.  
 
-```
+```groovy
 node { 
  // Declare stages here 
  def mvnHome
@@ -241,7 +241,7 @@ node {
 
 Once we have the code we run the test task. I put a little hack at the end because if the test case fail, the process will end with a non-zero value, if this happens the build will be marked as failed and other stages will be aborted and we want to read the report which is the next stage after this one.
 
-```
+```groovy
  stage('Build & Test in Jenkins') {
     // Run the maven build
     sh "'${mvnHome}/bin/mvn' test || exit 0"
@@ -264,7 +264,7 @@ Everytime we run a report is generated. Here we just read the unit test report, 
 
 Here I check the status of the deployment if the build is unstable then I just ignore this step and finish the build. If the build state is successful state then I tell our Openshift to start a new build and deployment of our code into a container. 
 
-```
+```groovy
 stage('Build & Deploy in Openshift') {
       /*
        * User and password should be provided by a Jenkins Credential Manager

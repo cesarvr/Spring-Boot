@@ -57,22 +57,22 @@ It's a quick and convenient way to work in your local machine.
 
 ## Openshift
 
-### Trying Openshift
+### Getting Started
 
 If you want to practice in local you can get the [oc-client](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md).
 
 At the moment of writing this document oc-client work best with this old version of [Docker](https://download.docker.com/mac/stable/1.13.1.15353/Docker.dmg).
 
 
-### Deploying in Openshift
+### Deploying Java WAR On Openshift
 
 To deploy our code, we can create a new application:
 
 ```
-oc new-app wildfly:10.0~https://github.com/cesarvr/Spring-Boot
+   oc new-app wildfly:10.0~https://github.com/cesarvr/Spring-Boot
 ```
 
-This will create an application by running following steps:
+This will create an application by running the following steps:
 
 - **Building** This will basically clone the project, fetch all dependencies and push the image the registry.
 - **Deploy** As soon as the image is registered, it will be deploy in the form of a Pod, after that will be ready to accept request.

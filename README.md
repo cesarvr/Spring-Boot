@@ -132,9 +132,16 @@ The main difference using this method is that service is automatically expose.
 
 Now we have an Openshift application (Build, Deploy, Service andd Router), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
-First go to the Openshift console, project catalogue and click to create to deploy a new Jenkins container. One of the advantage of using this option is that when we deploy Jenkins, Openshift inject the permissions for the current namespace, this means that as long as we operate with Jenkins in this [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) we aren't going to need any extra permissions. 
+First go to the Openshift console, project catalogue and click to create to deploy a new Jenkins container. 
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins.png?raw=true)
+
+Just keep in mind that this Jenkins can only operate within its deployment [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), if you want to deploy applications in other namespaces, you need to grant ``edit, view`` roles, like this:
+
+```sh
+oc policy add-role-to-user edit system:serviceaccount:<namespace-where-jenkins-is-deployed>:<jenkins-pod> -n <the-target-namespace>
+```
+
 
 When the deployment finish you should see something like this:
 

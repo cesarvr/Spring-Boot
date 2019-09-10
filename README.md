@@ -114,12 +114,6 @@ curl spring-boot-spring.127.0.0.1.nip.io
 Hello World!!
 ```
 
-
-##### Live Demo
-
-[![asciicast](https://asciinema.org/a/vYisX98uO9b9xr0XKWwUyW2SI.png)](https://asciinema.org/a/vYisX98uO9b9xr0XKWwUyW2SI)
-
-<BR>
 <BR>
 
 
@@ -136,9 +130,9 @@ The main difference using this method is that service is automatically expose.
 
 ## Configuring Continuous Integration
 
-Now we have an Openshift application (Build, Deploy, Expose), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
+Now we have an Openshift application (Build, Deploy, Service andd Router), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
-First go to the Openshift console, project catalogue and click to create a new Jenkins application, the advantage by doing this is this application get the permission to operate this project. 
+First go to the Openshift console, project catalogue and click to create to deploy a new Jenkins container. One of the advantage of using this option is that when we deploy Jenkins, Openshift inject the permissions for the current namespace, this means that as long as we operate with Jenkins in this [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) we aren't going to need any extra permissions. 
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins.png?raw=true)
 
@@ -146,7 +140,7 @@ When the deployment finish you should see something like this:
 
 ![Jenkins Deployment](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins-deploy.png?raw=true)
 
-Now you just need to click the router link (https://jenkins-helloworld.127.0.0.1…, for the case below.), this will take you to the Jenkins home. 
+Now you just need to click the router link and it will take us to Jenkins home. 
 
 ![Jenkins Home](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins-home.png?raw=true)
 
@@ -154,16 +148,7 @@ Now you just need to click the router link (https://jenkins-helloworld.127.0.0.1
 <br><br>
 ### Configuring Maven
 
-In this example project we are using Maven, but instructions should be similar if you are using other package manager. Now we need to go to: 
-
-Manage Jenkins -> Manage Plugins. 
-
-![Manage Plugins](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Manage.png?raw=true)
-
-
-Install Pipeline Maven Integration Jenkins Plugin, Then just press the button install without restart.
-
-![Maven Integration Plugin](https://github.com/cesarvr/Spring-Boot/blob/master/docs/Maven%20Plugin.png?raw=true)
+In this example we are going to use Maven, but this instructions should be similar if you are using other package manager. The next step is to install Maven using the Global Tools:
 
 We now need to install Maven globally for Jenkins, navigate to Manage Jenkins (Again) -> Global Tool Configuration
 
@@ -171,7 +156,7 @@ We now need to install Maven globally for Jenkins, navigate to Manage Jenkins (A
 
 Then go to the Maven section and choose your Maven version, for this guide I will choose 3.5.3 and set the name to **Maven353** as we going to need it later.
 
-Then press save. We finish the boring part, let’s create our pipeline. 
+Then press save. We've finish with the boring part, so now let’s create our pipeline. 
 
 
 <br><br>

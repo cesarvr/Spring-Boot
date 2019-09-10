@@ -130,18 +130,26 @@ The main difference using this method is that service is automatically expose.
 
 ## Configuring Continuous Integration
 
+### Deploying Jenkins
+
 Now we have an Openshift application (Build, Deploy, Service andd Router), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins. 
 
 First go to the Openshift console, project catalogue and click to create to deploy a new Jenkins container. 
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/jenkins.png?raw=true)
 
-Just keep in mind that this Jenkins can only operate within its deployment [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), if you want to deploy applications in other namespaces, you need to grant ``edit, view`` roles, like this:
+
+### Permissions 
+
+Keep in mind that this Jenkins can only operate inside the [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) where its deployed. 
+
+To deploy applications in other namespaces, you need to grant ``edit, view`` roles, to the **Jenkins pod**:
 
 ```sh
 oc policy add-role-to-user edit system:serviceaccount:<namespace-where-jenkins-is-deployed>:<jenkins-pod> -n <the-target-namespace>
 ```
 
+### Accessing
 
 When the deployment finish you should see something like this:
 
@@ -153,7 +161,7 @@ Now you just need to click the router link and it will take us to Jenkins home.
 
 
 <br><br>
-### Configuring Maven
+### Getting Maven On Jenkins
 
 In this example we are going to use Maven, but this instructions should be similar if you are using other package manager. The next step is to install Maven using the Global Tools:
 
@@ -167,7 +175,7 @@ Then press save. We've finish with the boring part, so now let’s create our pi
 
 
 <br><br>
-### Creating Jenkins Pipeline Project
+### Creating A Pipeline
 
 We need to create a Jenkins Pipeline, easy we just need to go to the home, press the menu **new items** and choose a name for your project and check Pipeline option. 
 
@@ -196,6 +204,7 @@ We should end up with something like this:
 
 <br><br>
 ### Pipeline Script  
+
 #### Getting Started
 
 First we need to declare the node where this pipeline will get executed, as we are going to use a standalone Jenkins local to our config project we can keep it simple.

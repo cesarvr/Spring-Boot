@@ -171,8 +171,17 @@ We now need to install Maven globally for Jenkins, navigate to Manage Jenkins (A
 
 Then go to the Maven section and choose your Maven version, for this guide I will choose 3.5.3 and set the name to **Maven353** as we going to need it later.
 
-Then press save. We've finish with the boring part, so now let’s create our pipeline. 
+Now you can use Maven in your Jenkins Pipeline Script: 
 
+```groovy
+pipeline {
+  agent any
+
+  tools {
+     maven 'Maven353'   # Maven Global Alias.
+  }
+  ...
+``` 
 
 <br><br>
 ### Creating A Pipeline

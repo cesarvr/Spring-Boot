@@ -21,7 +21,8 @@ pipeline {
     stage('Run unit tests') {
       steps {
         echo "Run unit tests"
-        configFileProvider([configFile(fileId: '5158662d-6a7d-4fa0-881c-a61465b02bb2', variable: 'MAVEN_SETTINGS')]) {
+        configFileProvider([configFile(fileId: 'fea10c53-e507-4e72-81cf-fc3e5c14aeda', targetLocation: 'MAVEN_SETTINGS', variable: 'MAVEN_SETTINGS')]) {
+
           sh 'mvn test'
         }
         }
@@ -35,7 +36,8 @@ pipeline {
     stage('Build') {
       steps {
         echo "Build artifact"
-        configFileProvider([configFile(fileId: '5158662d-6a7d-4fa0-881c-a61465b02bb2', variable: 'MAVEN_SETTINGS')]) {
+        configFileProvider([configFile(fileId: 'fea10c53-e507-4e72-81cf-fc3e5c14aeda', targetLocation: 'MAVEN_SETTINGS', variable: 'MAVEN_SETTINGS')]) {
+
           echo "Config: $MAVEN_SETTINGS"
           //  sh 'mvn package'
           //sh   'mvn -s $MAVEN_SETTINGS test'

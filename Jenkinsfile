@@ -33,7 +33,13 @@ pipeline {
     stage('Build') {
       steps {
         echo "Build artifact"
-        sh 'mvn package'
+        configFileProvider([configFile(fileId: '5158662d-6a7d-4fa0-881c-a61465b02bb2', variable: 'MAVEN_SETTINGS')]) {
+          echo "Config: $MAVEN_SETTINGS"
+          //  sh 'mvn package'
+          //sh   'mvn -s $MAVEN_SETTINGS test'
+          sh   'mvn -s $MAVEN_SETTINGS package'
+        }
+
         echo "Trigger image build"
         script {
           openshift.withCluster() {

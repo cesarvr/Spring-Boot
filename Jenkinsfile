@@ -21,8 +21,10 @@ pipeline {
     stage('Run unit tests') {
       steps {
         echo "Run unit tests"
-        sh 'mvn test'
-      }
+        configFileProvider([configFile(fileId: '5158662d-6a7d-4fa0-881c-a61465b02bb2', variable: 'MAVEN_SETTINGS')]) {
+          sh 'mvn test'
+        }
+        }
       post {
         always {
           junit 'target/surefire-reports/*.xml'

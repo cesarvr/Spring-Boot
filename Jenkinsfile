@@ -23,7 +23,7 @@ pipeline {
         echo "Run unit tests"
         configFileProvider([configFile(fileId: 'fea10c53-e507-4e72-81cf-fc3e5c14aeda', targetLocation: 'MAVEN_SETTINGS', variable: 'MAVEN_SETTINGS')]) {
 
-          sh 'mvn test'
+          sh 'mvn -s $MAVEN_SETTINGS test'
         }
         }
       post {

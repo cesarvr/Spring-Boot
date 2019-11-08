@@ -33,7 +33,6 @@ pipeline {
     stage('Build') {
       steps {
         echo "Build artifact"
-        echo "Config: $MAVEN_SETTINGS"
         sh   'mvn package'
 
         echo "Trigger image build"

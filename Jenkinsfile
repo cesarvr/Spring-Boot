@@ -21,11 +21,8 @@ pipeline {
     stage('Run unit tests') {
       steps {
         echo "Run unit tests"
-        configFileProvider([configFile(fileId: 'fea10c53-e507-4e72-81cf-fc3e5c14aeda', targetLocation: 'MAVEN_SETTINGS', variable: 'MAVEN_SETTINGS')]) {
-
-          sh 'mvn -s $MAVEN_SETTINGS test'
-        }
-        }
+        sh 'mvn test'
+      }
       post {
         always {
           junit 'target/surefire-reports/*.xml'
@@ -36,20 +33,15 @@ pipeline {
     stage('Build') {
       steps {
         echo "Build artifact"
-        configFileProvider([configFile(fileId: 'fea10c53-e507-4e72-81cf-fc3e5c14aeda', targetLocation: 'MAVEN_SETTINGS', variable: 'MAVEN_SETTINGS')]) {
-
-          echo "Config: $MAVEN_SETTINGS"
-          //  sh 'mvn package'
-          //sh   'mvn -s $MAVEN_SETTINGS test'
-          sh   'mvn -s $MAVEN_SETTINGS package'
-        }
+        echo "Config: $MAVEN_SETTINGS"
+        sh   'mvn package'
 
         echo "Trigger image build"
         script {
           openshift.withCluster() {
             openshift.selector("bc", imageBuildConfig).startBuild("--from-file=target/ROOT.war", "--wait")
-            }
           }
+         }
         }
       post {
         success {

@@ -10,8 +10,11 @@
 */
 
 def appName = "${params.APPLICATION_NAME}"
+def PROXY   = "${params.PROXY}"
 def imageBuildConfig = appName
 def deploymentConfig = appName
+
+def PROXY_JVM_OPTIONS = "-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
 
 pipeline {
 
@@ -29,10 +32,10 @@ pipeline {
   }
 
 
-    stage('Run unit tests') {
+    stage("Running Test\'s") {
       steps {
         echo "Run unit tests"
-        sh 'mvn test'
+        sh "mvn ${PROXY_JVM_OPTIONS} package"
       }
       post {
         always {
@@ -41,21 +44,21 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Creating and Deploying Container') {
       steps {
-        echo "Build artifact"
-        sh   'mvn package'
 
         echo "Trigger image build"
         script {
           openshift.withCluster() {
+            sh "ls -arlt ./target"
+            sh "oc start-build bc ${appName} --from-dir=target"
             openshift.selector("bc", imageBuildConfig).startBuild("--from-file=target/ROOT.war", "--wait")
           }
          }
         }
       post {
         success {
-          archiveArtifacts artifacts: 'target/**.war', fingerprint: true
+          archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
         }
       }
     }

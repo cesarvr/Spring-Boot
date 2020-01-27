@@ -24,7 +24,7 @@ pipeline {
       
       steps {
         echo "Creating Openshift Objects"
-        sh "echo creating objects for ${appName} && ./jenkins/build ${appName}"
+        sh "echo creating objects for ${appName} && ./jenkins/build.sh ${appName}"
       }
 
       post {

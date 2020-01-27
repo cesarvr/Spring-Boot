@@ -35,7 +35,7 @@ pipeline {
     stage("Running Test\'s") {
       steps {
         echo "Run unit tests"
-        sh "mvn ${PROXY_JVM_OPTIONS} package"
+        sh "mvn ${PROXY_JVM_OPTIONS} surefire-report:report"
       }
       post {
         always {

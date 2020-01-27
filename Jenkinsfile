@@ -16,6 +16,8 @@ def deploymentConfig = appName
 
 def PROXY_JVM_OPTIONS = "-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
 
+
+
 pipeline {
 
   agent {
@@ -65,9 +67,10 @@ pipeline {
     stage('Deploy') {
       steps {
         script {
-          openshift.withCluster() {
-            openshift.selector("dc", deploymentConfig).rollout()
-          }
+          sh "oc rollout latest dc/${appName}"
+          sh "oc wait dc/${appName} --for condition=available"
+         
+         
         }
       }
     }

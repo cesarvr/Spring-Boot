@@ -49,6 +49,7 @@ pipeline {
 
         echo "Trigger image build"
       script {
+            sh "mvn ${PROXY_JVM_OPTIONS} package"
             sh "ls target/*.jar"
             sh "oc start-build bc ${appName} --from-file=\$(ls target/*.jar) --follow"
          }

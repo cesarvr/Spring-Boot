@@ -48,14 +48,12 @@ pipeline {
       steps {
 
         echo "Trigger image build"
-        script {
-          openshift.withCluster() {
+      script {
             sh "ls -arlt ./target"
-            sh "oc start-build bc ${appName} --from-dir=target"
-            openshift.selector("bc", imageBuildConfig).startBuild("--from-file=target/ROOT.war", "--wait")
-          }
+            sh "oc start-build bc ${appName} --from-dir=target --follow"
          }
-        }
+      }
+
       post {
         success {
           archiveArtifacts artifacts: 'target/**.jar', fingerprint: true

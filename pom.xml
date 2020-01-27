@@ -11,7 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot</name>
+	<name>simple-micro-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -43,7 +43,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- end::tests[] -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- end::tests[] -->
 	</dependencies>
 
 	<build>

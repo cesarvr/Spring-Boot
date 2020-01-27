@@ -14,6 +14,7 @@ def imageBuildConfig = appName
 def deploymentConfig = appName
 
 pipeline {
+
   agent {
     label 'maven'
   }
@@ -23,7 +24,7 @@ pipeline {
       
       steps {
         echo "Creating Openshift Objects"
-        sh "echo creating objects for ${appName} && ./build ${appName}"
+        sh "echo creating objects for ${appName} && ./jenkins/build ${appName}"
       }
 
       post {
@@ -33,7 +34,7 @@ pipeline {
       }
   }
 
-  stages {
+
     stage('Run unit tests') {
       steps {
         echo "Run unit tests"
@@ -74,5 +75,6 @@ pipeline {
         }
       }
     }
+
   }
 }

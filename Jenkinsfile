@@ -49,7 +49,7 @@ pipeline {
 
         echo "Trigger image build"
       script {
-            sh "ls target/*.jar"
+            sh "ls"
             sh "oc start-build bc ${appName} --from-file=\$(ls target/*.jar) --follow"
          }
       }

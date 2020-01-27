@@ -9,7 +9,7 @@
   oc set probe dc spring-demo-dev --liveness --get-url=http://:8080/health
 */
 
-def appName = "${params.PROJECT_NAME}"
+def appName = "${params.APPLICATION_NAME}"
 def imageBuildConfig = appName
 def deploymentConfig = appName
 
@@ -17,6 +17,22 @@ pipeline {
   agent {
     label 'maven'
   }
+
+  stages {
+    stage('Creating Project ${appName}') {
+      
+      steps {
+        echo "Creating Openshift Objects"
+        sh "echo creating objects for ${appName} && ./build ${appName}"
+      }
+
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+        }
+      }
+  }
+
   stages {
     stage('Run unit tests') {
       steps {

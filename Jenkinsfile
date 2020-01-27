@@ -24,13 +24,7 @@ pipeline {
       
       steps {
         echo "Creating Openshift Objects"
-        sh "echo creating objects for ${appName} && ./jenkins/build.sh ${appName}"
-      }
-
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-        }
+        sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
       }
   }
 

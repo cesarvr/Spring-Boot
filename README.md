@@ -6,7 +6,7 @@ Table of contents
    * [Adding Your Project To A Pipeline](#start)
    * [Deploying WAR's](#openshift)
    * [Configuring Continuous Integration](#continous)
-   * [Faster Continuous Integration](#faster)
+   * [Openshift Pipeline Integration](#faster)
 <!--te-->
 
 
@@ -18,11 +18,9 @@ Table of contents
 
 For that purpose you can run the ``installation script`` but first you need Openshift client ([windows](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip), [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) then you need to login with your account: 
 
-
-
 ```sh
+#Login into Openshift
 oc login 
-
 # Authentication required for ... 
 
 # Create a project
@@ -60,8 +58,6 @@ Once the pipeline is created it will create the [Openshift components](https://g
 ```
 
 > The Jenkinsfile is the place that you should start customizing to fit your particular case.
-
-
 
 <a name="openshift"/>
 
@@ -423,7 +419,6 @@ After we complete above step, Openshift will perform the following steps:
 
 - Jenkins instance. The step is skipped if it was already created.
 - Add a new pipeline project and includes the above pipeline within this project. 
-
 
 ![Openshift UI](https://github.com/cesarvr/Spring-Boot/blob/master/docs/pipeline.png?raw=true)
 

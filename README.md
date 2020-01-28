@@ -12,7 +12,7 @@ Table of contents
 
 <a name="start"/>
 
-## Before start 
+## Adding Your Project To A Pipeline
 
 #### Tools
 To make your life easier with Openshift you will need some of the tools that are available in Linux, if you are stuck with Windows then there is some ways to get the Linux tools the first option is to use the [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) which is basically Linux [user-space](https://en.wikipedia.org/wiki/User_space) emulated by Windows System calls, this is good enough to do heavy development. Your second option is to use [Cmder](https://cmder.net/) which brings the Linux feeling to your Windows *day-to-day* and include tools such [Cygwin](https://en.wikipedia.org/wiki/Cygwin) (Gnu/Unix popular tools ported to Windows) and [Git](https://en.wikipedia.org/wiki/Git) client.

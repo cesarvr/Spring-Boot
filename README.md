@@ -4,7 +4,7 @@ Table of contents
 
 <!--ts-->
    * [Adding Your Project To A Pipeline](#start)
-   * [Spring Boot in Openshift](#openshift)
+   * [Deploying WAR's](#openshift)
    * [Configuring Continuous Integration](#continous)
    * [Faster Continuous Integration](#faster)
 <!--te-->
@@ -42,18 +42,14 @@ This will create a Openshift pipeline build which automatically do this:
 - Creates (if is doesn't exist) an instance of Jenkins in your namespace/project.  
 - Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project). 
 
-Once the pipeline is created it will create the Openshift components (BuildConfig, Deployment Config, Service and Router) to deploy your Spring Boot application, this code is stored in a separated script called [build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh), then we invoke this script in the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32): 
+Once the pipeline is created it will create the [Openshift components](https://github.com/cesarvr/Openshift) (BuildConfig, Deployment Config, Service and Router) to deploy your Spring Boot application. The code to create this components is stored in the root folder jenkins folder/[build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh) and is invoked by the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32) as part of the build process: 
 
 ```groovy
-      steps {
-        echo "Creating Openshift Objects"
-        sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
-      }
+  steps {
+    echo "Creating Openshift Objects"
+    sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
+  }
 ```
-
-
-
-
 
 
 <a name="openshift"/>

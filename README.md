@@ -36,7 +36,7 @@ Once you have logged-in and setup your project you can create the pipeline build
 
 ```sh
 sh jenkins\install.sh <micro-service-name> <git-url-for-your-code>
-sh jenkins\install.sh service-a http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice
+sh jenkins\install.sh service-b http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice
 ```
 
 This will create a Openshift pipeline build which automatically do this: 

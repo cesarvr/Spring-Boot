@@ -16,8 +16,6 @@ def deploymentConfig = appName
 
 def PROXY_JVM_OPTIONS = "-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
 
-
-
 pipeline {
 
   agent {
@@ -25,7 +23,7 @@ pipeline {
   }
 
   stages {
-    stage('Creating Project ${appName}') {
+    stage("Creating Project ${appName}") {
       
       steps {
         echo "Creating Openshift Objects"

@@ -3,10 +3,57 @@ Table of contents
 =================
 
 <!--ts-->
+   * [Adding Your Project To A Pipeline](#start)
    * [Spring Boot in Openshift](#openshift)
    * [Configuring Continuous Integration](#continous)
    * [Faster Continuous Integration](#faster)
 <!--te-->
+
+
+<a name="start"/>
+
+# Adding This Project To The Pipeline
+
+## Creating The Pipeline 
+
+For that purpose you can run the ``installation script`` but first you need Openshift client ([windows](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip), [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) then you need to login with your account: 
+
+```sh
+oc login 
+
+# Authentication required for ... 
+
+# Create a project
+oc new-project <your-project>
+
+# Go to your project
+oc project <your-project>
+```
+
+Once you have logged-in and setup your project you can create the pipeline build by doing: 
+
+```sh
+sh jenkins\install.sh <micro-service-name> <git-url-for-your-code>
+sh jenkins\install.sh service-a http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice
+```
+
+This will create a Openshift pipeline build which automatically do this: 
+
+- Creates (if is doesn't exist) an instance of Jenkins in your namespace/project.  
+- Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project). 
+
+Once the pipeline is created it will create the Openshift components (BuildConfig, Deployment Config, Service and Router) to deploy your Spring Boot application, this code is stored in a separated script called [build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh), then we invoke this script in the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32): 
+
+```groovy
+      steps {
+        echo "Creating Openshift Objects"
+        sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
+      }
+```
+
+
+
+
 
 
 <a name="openshift"/>

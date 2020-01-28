@@ -14,6 +14,10 @@ Table of contents
 
 # Adding This Project To The Pipeline
 
+## Before start 
+
+To make your life easier with Openshift you will need some of the tools that are available in Linux, if you can get a [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) use that, if you don't have that option you can use [Cmder](https://cmder.net/) which brings Cygwin and Git client.
+
 ## Creating The Pipeline 
 
 For that purpose you can run the ``installation script`` but first you need Openshift client ([windows](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip), [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) then you need to login with your account: 

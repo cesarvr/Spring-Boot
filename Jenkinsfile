@@ -54,7 +54,7 @@ pipeline {
     stage('Deploy') {
       steps {
         script {
-          sh "oc rollout latest dc/${appName}"
+          sh "oc rollout latest dc/${appName} || true"
           sh "oc wait dc/${appName} --for condition=available"
          
          

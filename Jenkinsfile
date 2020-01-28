@@ -23,7 +23,7 @@ pipeline {
   }
 
   stages {
-    stage("Creating Project ${appName}") {
+    stage("Creating Openshift Components") {
       
       steps {
         echo "Creating Openshift Objects"

@@ -18,6 +18,8 @@ Table of contents
 
 For that purpose you can run the ``installation script`` but first you need Openshift client ([windows](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip), [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) then you need to login with your account: 
 
+
+
 ```sh
 oc login 
 
@@ -42,6 +44,12 @@ This will create a Openshift pipeline build which automatically do this:
 - Creates (if is doesn't exist) an instance of Jenkins in your namespace/project.  
 - Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project). 
 
+
+![](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/raw/master/docs/service-a.PNG)
+
+
+### The Pipeline Is There Now What ?
+
 Once the pipeline is created it will create the [Openshift components](https://github.com/cesarvr/Openshift) (BuildConfig, Deployment Config, Service and Router) to deploy your Spring Boot application. The code to create this components is stored in the root folder jenkins folder/[build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh) and is invoked by the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32) as part of the build process: 
 
 ```groovy
@@ -50,6 +58,9 @@ Once the pipeline is created it will create the [Openshift components](https://g
     sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
   }
 ```
+
+> The Jenkinsfile is the place that you should start customizing to fit your particular case.
+
 
 
 <a name="openshift"/>

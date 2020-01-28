@@ -16,7 +16,7 @@ Table of contents
 
 ## Before start 
 
-To make your life easier with Openshift you will need some of the tools that are available in Linux, if you can get a [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) use that, if you don't have that option you can use [Cmder](https://cmder.net/) which brings Cygwin and Git client.
+To make your life easier with Openshift you will need some of the tools that are available in Linux, if you can get a [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) use that, if you don't have that option, you can use [Cmder](https://cmder.net/) which brings the Linux feeling to your Windows *day-to-day* with tools like Cygwin and Git client.
 
 ## Creating The Pipeline 
 

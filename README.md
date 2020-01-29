@@ -157,8 +157,7 @@ oc log my-java-app-2-d6zs4
 log is DEPRECATED and will be removed in a future version. Use logs instead.
 Starting the Java application using /opt/run-java/run-java.sh ...
 exec java -javaagent:/opt/jolokia/jolokia.jar=config=/opt/jolokia/etc/jolokia.pro...
--XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:MaxMetaspaceSize=100m -XX...
-I> No access restrictor found, access to any MBean is allowed
+No access restrictor found, access to any MBean is allowed
 Jolokia: Agent started with URL https://10.130.3.218:8778/jolokia/
 
   .   ____          _            __ _ _

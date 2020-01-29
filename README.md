@@ -102,13 +102,13 @@ mvn package #
 ```
 > Before pushing *JAR binaries* to Openshift just keep in mind that the supported OpenJDK version is ``"1.8.0_161``.
 
-Then push the JAR to the BuildConfiguration by doing:
+Then push the JAR to the Build Configuration by doing:
 
 ```sh
  oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar --follow
 ```
 
-> If this command finish succesfully, it means that there is an image in the cluster with your application.
+> If this command finish successfully, it means that there is an image in the cluster with your application.
 
 
 Next step is to deploy this image you can do this by doing:
@@ -146,7 +146,7 @@ oc get pod | grep my-java-app
 # my-java-app-2-d6zs4                 1/1       Running     0          8m
 ```
 
-We see here two container [1](#appendix-1) the one with suffix ``build`` means that this container was in charge of the building process (putting your JAR in place, configuration, etc.). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example:
+We see here two [container](#appendix) the one with suffix ``build`` means that this container was in charge of the building process (putting your JAR in place, configuration, etc.). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example:
 
 ```sh
 oc log my-java-app-2-d6zs4
@@ -168,7 +168,7 @@ Jolokia: Agent started with URL https://10.130.3.218:8778/jolokia/
 
 ### Debug
 
-If the pod is crashing continuosly you won't have time to ``log`` into the pod on time, its that the case you can use the ``oc-debug`` command to *revive* crashed containers.
+If the pod is crashing continuously you won't have time to ``log`` into the pod on time, its that the case you can use the ``oc-debug`` command to *revive* crashed containers.
 
 ```sh
 oc get pod | grep my-java-app
@@ -191,8 +191,6 @@ This will give you a temporary shell inside the container there you can try to e
 This example project is for people that want to start playing with Spring Boot in Openshift.
 
 Its based in the hello world located in the [Spring website](https://spring.io/guides/gs/spring-boot/), I just modify the ```pom.xml``` so the code can be deploy using the Wildfly/Openshift template.
-
-
 
 ### Features
 
@@ -309,7 +307,7 @@ The main difference using this method is that service is automatically expose.
 
 ### Deploying Jenkins
 
-Now we have an Openshift application (Build, Deploy, Service andd Router), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins.
+Now we have an Openshift application (Build, Deploy, Service and Router), this is very good so far, but I want to orchestrate some test automation for the code, let create a simple pipeline with Jenkins.
 
 First go to the Openshift console, project catalogue and click to create to deploy a new Jenkins container.
 

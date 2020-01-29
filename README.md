@@ -3,16 +3,16 @@ Table of contents
 =================
 
 <!--ts-->
-   * [Adding Your Project To A Pipeline](#start)
+   * [Getting Your Code Into Jenkins](#start)
+   * [Local Development](#local)
    * [Deploying WAR's](#openshift)
    * [Configuring Continuous Integration](#continous)
    * [Openshift Pipeline Integration](#faster)
 <!--te-->
 
 
-<a name="start"/>
 
-## Adding Your Project To A Pipeline
+## Getting Started
 
 #### Tools
 To make your life easier with Openshift you will need some of the tools that are available in Linux, if you are stuck with Windows then there is some ways to get the Linux tools the first option is to use the [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) which is basically Linux [user-space](https://en.wikipedia.org/wiki/User_space) emulated by Windows System calls, this is good enough to do heavy development. Your second option is to use [Cmder](https://cmder.net/) which brings the Linux feeling to your Windows *day-to-day* and include tools such [Cygwin](https://en.wikipedia.org/wiki/Cygwin) (Gnu/Unix popular tools ported to Windows) and [Git](https://en.wikipedia.org/wiki/Git) client.
@@ -29,7 +29,10 @@ Once you have your *Unix-like* setup, the next step is to the Openshift client w
 set "PATH=%PATH%;<your-oc-cli-folder>\oc-cli\"
 ``` 
 
-## Creating The Pipeline 
+
+<a name="start"/>
+
+## Getting Your Code Into Jenkins
 
 A quick way to get your Java Spring Boot Project to Openshift is reusing this convinient *installation script* provided in this project, but first you need Openshift client  then you need to login with your account: 
 
@@ -81,6 +84,93 @@ Once the pipeline is created it will create the [Openshift components](https://g
 This example project is for people that want to start playing with Spring Boot in Openshift.
 
 Its based in the hello world located in the [Spring website](https://spring.io/guides/gs/spring-boot/), I just modify the ```pom.xml``` so the code can be deploy using the Wildfly/Openshift template.
+
+
+
+
+<a name="local"/>
+
+## Local Development
+
+One of the best ways to get a feeling of how your services behave in Openshift is to deploy your applications there, here I provide a ``script`` to create a prototypical infraestructure to deploy a micro-service, to create this you should do: 
+
+```sh
+ sh jenkins\build.sh my-java-app
+``` 
+
+> This creates the Openshift components to deploy Spring Boot applications. 
+
+Now we just need to send our self-bootable-server-jar there, we can do this by running the follwing command: 
+
+First generate the JAR: 
+
+```sh
+mvn package # 
+```
+
+Then push the JAR to the BuildConfiguration by doing: 
+
+```sh
+ oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar --follow
+```
+
+> If this command finish succesfully, it means that there is an image in the cluster with your application. 
+
+
+Next step is to deploy this image you can do this by doing: 
+
+```sh
+oc rollout latest dc/my-java-app
+```
+
+> This take the container with your application and creates an instance in one of the ``worker-nodes``. 
+
+To access the application you need to retrieve the URL: 
+
+```sh
+
+#
+oc get routes  my-java-app -o=jsonpath='{.spec.host}'
+# my-java-app-deleteme-1.apps.rhos.agriculture.gov.ie
+```
+Past the URL in your browser and you should be able to see your application. 
+
+
+
+### Troubleshooting Problems 
+
+### Logs
+
+- If something wrong happens while deploying (like ``oc rollout latest``) you can check the logs of the container by doing: 
+
+```sh
+oc get pod | grep my-java-app
+# my-java-app-1-build                 0/1       Completed   0          15m
+# my-java-app-2-d6zs4                 1/1       Running     0          8m
+```
+
+We see here two container [1](#appendix-1) the one with suffix ``build`` means that this container was in charge of the building process (putting your JAR in place, configuration, etc). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example: 
+
+```sh
+oc log my-java-app-2-d6zs4
+log is DEPRECATED and will be removed in a future version. Use logs instead.
+Starting the Java application using /opt/run-java/run-java.sh ...
+exec java -javaagent:/opt/jolokia/jolokia.jar=config=/opt/jolokia/etc/jolokia.properties -XX:+UseParallelGC -XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=40 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:MaxMetaspaceSize=100m -XX:+ExitOnOutOfMemoryError -cp . -jar /deployments/spring-boot-0.0.1-SNAPSHOT.jar
+I> No access restrictor found, access to any MBean is allowed
+Jolokia: Agent started with URL https://10.130.3.218:8778/jolokia/
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.2.RELEASE)
+```
+
+
+
+
 
 ### Features
 
@@ -442,3 +532,13 @@ After we complete above step, Openshift will perform the following steps:
 And thats it, you just need to setup your Webhooks and start working in your app.
 
 Thanks to [martineg](https://github.com/martineg) and [Prima](https://github.com/primashah), for the help with this one. 
+
+
+
+
+
+
+## Appendix
+
+<a name="appendix-1"/>
+In reality Openshift uses an abstraction called **pod** whose purpose is to facilitate the deployment of one or many containers and made them behave as a single entity (or a single container). [For more information about pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/)

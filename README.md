@@ -92,8 +92,6 @@ Its based in the hello world located in the [Spring website](https://spring.io/g
 
 ## Local Development
 
-> One observation before doing pushing binaries directly to Openshift is that the supported OpenJDK version is ``"1.8.0_161``.
-
 One of the best ways to get a feeling of how your services behave in Openshift is to deploy your applications there, here I provide a ``script`` to create a prototypical infraestructure to deploy a micro-service, to create this you should do: 
 
 ```sh
@@ -109,6 +107,7 @@ First generate the JAR:
 ```sh
 mvn package # 
 ```
+> Before pushing *JAR binaries* to Openshift just keep in mind that the supported OpenJDK version is ``"1.8.0_161``.
 
 Then push the JAR to the BuildConfiguration by doing: 
 

@@ -123,6 +123,9 @@ Next step is to deploy this image you can do this by doing:
 oc rollout latest dc/my-java-app
 ```
 
+![](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/raw/master/docs/deploy.PNG)
+
+
 > This take the container with your application and creates an instance in one of the ``worker-nodes``. 
 
 To access the application you need to retrieve the URL: 
@@ -131,7 +134,9 @@ To access the application you need to retrieve the URL:
 oc get routes  my-java-app -o=jsonpath='{.spec.host}'
 # my-java-app-deleteme-1.apps.rhos.agriculture.gov.ie
 ```
-Past the URL in your browser and you should be able to see your application. 
+
+![](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/raw/master/docs/url.PNG)
+> Past the URL in your browser and you should be able to see your application. 
 
 
 

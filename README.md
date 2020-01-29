@@ -128,8 +128,6 @@ oc rollout latest dc/my-java-app
 To access the application you need to retrieve the URL: 
 
 ```sh
-
-#
 oc get routes  my-java-app -o=jsonpath='{.spec.host}'
 # my-java-app-deleteme-1.apps.rhos.agriculture.gov.ie
 ```

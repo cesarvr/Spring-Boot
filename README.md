@@ -50,17 +50,14 @@ oc project <your-project>
 
 Once you have logged-in and setup your project you can create the pipeline build, but first you need the *HTTP* URL of your git repository:
 
-#### gogs:
+- **gogs**
+  - ![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gogs-git.PNG)
 
-![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gogs-git.PNG)
 
----
 
-#### Gitlab:
+- **Gitlab**
+ - ![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gitlab-url.PNG)
 
-![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gitlab-url.PNG)
-
----
 
 Once you have the git repository URL you can execute the ``install`` script like this:
 

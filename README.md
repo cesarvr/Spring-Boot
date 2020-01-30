@@ -48,11 +48,23 @@ oc new-project <your-project>
 oc project <your-project>
 ```
 
-Once you have logged-in and setup your project you can create the pipeline build by doing:
+Once you have logged-in and setup your project you can create the pipeline build, but first you need the *HTTP* URL of your git repository:
+
+To get this URL in Gogs:
+
+![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gogs-git.PNG)
+
+In you are using Gitlab:
+
+![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gitlab-url.PNG)
+
+Once you have the URL you can execute the ``install`` script like this:
 
 ```sh
-sh jenkins\install.sh <micro-service-name> <git-url-for-your-code>
-sh jenkins\install.sh service-b http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice
+sh jenkins\install.sh <micro-service-name> <git-HTTP-url-to-your-code>
+
+#Example 
+sh jenkins\install.sh service-b https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice
 ```
 
 This will create a Openshift pipeline build which automatically do this:

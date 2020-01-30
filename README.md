@@ -142,7 +142,7 @@ oc get routes  my-java-app -o=jsonpath='{.spec.host}'
 # my-java-app-deleteme-1.apps.rhos.agriculture.gov.ie
 ```
 
-![]https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/url.PNG)
+![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/url.PNG)
 > Past the URL in your browser and you should be able to see your application.
 
 

@@ -61,7 +61,7 @@ This will create a Openshift pipeline build which automatically do this:
 - Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project).
 
 
-![](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/raw/master/docs/service-a.PNG)
+![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/service-a.PNG)
 
 
 ### The Pipeline Is There Now What ?
@@ -117,7 +117,7 @@ Next step is to deploy this image you can do this by doing:
 oc rollout latest dc/my-java-app
 ```
 
-![](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/raw/master/docs/deploy.PNG)
+![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/deploy.PNG)
 
 
 > This take the container with your application and creates an instance in one of the ``worker-nodes``.
@@ -129,7 +129,7 @@ oc get routes  my-java-app -o=jsonpath='{.spec.host}'
 # my-java-app-deleteme-1.apps.rhos.agriculture.gov.ie
 ```
 
-![](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/raw/master/docs/url.PNG)
+![]https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/url.PNG)
 > Past the URL in your browser and you should be able to see your application.
 
 
@@ -225,9 +225,6 @@ To work in local you can execute:
   mvn spring-boot:run
 ```
 It's a quick and convenient way to work in your local machine.
-
-
-[![asciicast](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0.png)](https://asciinema.org/a/PzYoOWwc0WUQgwJmrnXv6mck0)
 
 
 ## Openshift

@@ -222,7 +222,7 @@ Jolokia: Agent started with URL https://10.130.3.218:8778/jolokia/
 
 ### Debug
 
-If the pod is crashing continuously you won't have time to ``log`` into the pod on time, its that the case you can use the ``oc-debug`` command to *revive* crashed containers.
+If the pod is crashing continuously you won't have time to see the ``logs`` of the pod, in that case you can use the ``oc-debug`` command to *revive* crashed containers.
 
 ```sh
 oc get pod | grep my-java-app

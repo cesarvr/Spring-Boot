@@ -79,7 +79,7 @@ This will create a Openshift pipeline build which automatically do this:
 
 ### The Pipeline Is There Now What ?
 
-Once the pipeline is created it will create the [Openshift components](https://github.com/cesarvr/Openshift) (BuildConfig, Deployment Configuration, Service and Router) to deploy your Spring Boot application. The code to create this components is stored in the root folder Jenkins folder/[build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh) and is invoked by the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32) as part of the build process:
+Once the pipeline is created it will create the [Openshift components](https://github.com/cesarvr/Openshift) ([BuildConfig](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc), Deployment Configuration, Service and Router) to deploy your Spring Boot application. The code to create this components is stored in the root folder Jenkins folder/[build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh) and is invoked by the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32) as part of the build process:
 
 ```groovy
   steps {
@@ -115,14 +115,13 @@ mvn package #
 ```
 > Before pushing *JAR binaries* to Openshift just keep in mind that the supported OpenJDK version is ``"1.8.0_161``.
 
-Then push the JAR to the Build Configuration by doing:
+Then push the JAR to the [Build Configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) by doing:
 
 ```sh
  oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar --follow
 ```
 
-> If this command finish successfully, it means that there is an image in the cluster with your application.
-
+> If this command finish successfully, it means that there is an [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) in the cluster with your application.
 
 Next step is to deploy this image you can do this by doing:
 
@@ -144,6 +143,48 @@ oc get routes  my-java-app -o=jsonpath='{.spec.host}'
 
 ![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/url.PNG)
 > Past the URL in your browser and you should be able to see your application.
+
+### Re-Deploy 
+
+The creation process with the ``build.sh`` should be done once, to re-deploy new changes you can do this: 
+
+```sh
+mvn package 
+oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar --follow
+```
+> Your changes should be now deployed. 
+
+
+### Compiling Our Project In The Cloud
+
+Sometimes pushing a binary can be problematic because: 
+
+- You have a different Java version than the container. 
+- You don't have Maven installed. 
+
+
+In those cases you can send your code to the [Build Configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) and make it build it for you.
+
+Before you can do this you should know that cluster access to the internet is constrained by a proxy server, this mean that we need to let the container know about this by adding a ``https_proxy`` [environment variable](https://docs.okd.io/1.2/install_config/http_proxies.html). 
+
+```sh
+oc set env bc/my-java-app https_proxy=http://vsdbahlprxy1:8080
+
+# In the unlikely case that you need HTTP unencrypted support... 
+oc set env bc/my-java-app http_proxy=http://vsdbahlprxy1:8080
+```
+
+Now assuming you are in your project root folder you can push your source code to the [build configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc): 
+
+```sh
+oc start-build bc/my-java-app --from-file=. --follow
+```
+
+Everything from here is the same as the binary version: 
+
+```sh
+oc rollout latest dc/my-java-app
+```
 
 
 

@@ -200,7 +200,7 @@ oc get pod | grep my-java-app
 # my-java-app-2-d6zs4                 1/1       Running     0          8m
 ```
 
-We see here two [container](#appendix) the one with suffix ``build`` means that this container was in charge of the building process (putting your JAR in place, configuration, etc.). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example:
+We see here two [container](#appendix) the one with suffix ``build`` means that this container was in charge of the [building process](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) (putting your JAR in place, configuration, etc.). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example:
 
 ```sh
 oc log my-java-app-2-d6zs4

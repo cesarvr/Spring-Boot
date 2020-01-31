@@ -123,7 +123,7 @@ Then push the JAR to the [Build Configuration](https://gogs-luck-ns.apps.rhos.ag
 
 > If this command finish successfully, it means that there is an [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) in the cluster with your application.
 
-Next step is to deploy this image you can do this by doing:
+Next step is to deploy this [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) you can do this by doing:
 
 ```sh
 oc rollout latest dc/my-java-app
@@ -144,43 +144,43 @@ oc get routes  my-java-app -o=jsonpath='{.spec.host}'
 ![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/url.PNG)
 > Past the URL in your browser and you should be able to see your application.
 
-### Re-Deploy 
+### Re-Deploy
 
-The creation process with the ``build.sh`` should be done once, to re-deploy new changes you can do this: 
+The creation process with the ``build.sh`` should be done once, to re-deploy new changes you can do this:
 
 ```sh
-mvn package 
+mvn package
 oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar --follow
 ```
-> Your changes should be now deployed. 
+> Your changes should be now deployed.
 
 
 ### Compiling Our Project In The Cloud
 
-Sometimes pushing a binary can be problematic because: 
+Sometimes pushing a binary can be problematic because:
 
-- You have a different Java version than the container. 
-- You don't have Maven installed. 
+- You have a different Java version than the container.
+- You don't have Maven installed.
 
 
 In those cases you can send your code to the [Build Configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) and make it build it for you.
 
-Before you can do this you should know that cluster access to the internet is constrained by a proxy server, this mean that we need to let the container know about this by adding a ``https_proxy`` [environment variable](https://docs.okd.io/1.2/install_config/http_proxies.html). 
+Before you can do this you should know that cluster access to the internet is constrained by a proxy server, this mean that we need to let the container know about this by adding a ``https_proxy`` [environment variable](https://docs.okd.io/1.2/install_config/http_proxies.html).
 
 ```sh
 oc set env bc/my-java-app https_proxy=http://vsdbahlprxy1:8080
 
-# In the unlikely case that you need HTTP unencrypted support... 
+# In the unlikely case that you need HTTP unencrypted support...
 oc set env bc/my-java-app http_proxy=http://vsdbahlprxy1:8080
 ```
 
-Now assuming you are in your project root folder you can push your source code to the [build configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc): 
+Now assuming you are in your project root folder you can push your source code to the [build configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc):
 
 ```sh
 oc start-build bc/my-java-app --from-file=. --follow
 ```
 
-Everything from here is the same as the binary version: 
+Everything from here is the same as the binary version:
 
 ```sh
 oc rollout latest dc/my-java-app
@@ -300,8 +300,8 @@ To deploy our code, we can create a new application:
 
 This will create an application by running the following steps:
 
-- **Building** This will basically clone the project, fetch all dependencies and push the image the registry.
-- **Deploy** As soon as the image is registered, it will be deploy in the form of a Pod, after that will be ready to accept request.
+- **Building** This will basically clone the project, fetch all dependencies and push the [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) the registry.
+- **Deploy** As soon as the [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) is registered, it will be deploy in the form of a Pod, after that will be ready to accept request.
 
 #### Expose
 

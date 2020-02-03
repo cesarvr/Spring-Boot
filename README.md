@@ -34,7 +34,7 @@ set "PATH=%PATH%;<your-oc-cli-folder>\oc-cli"
 
 ## Getting Your Code Into Jenkins
 
-A quick way to get your Java Spring Boot Project to Openshift is reusing this convenient [installation script](http://gogs-test-cesar-3.apps.rhos.agriculture.gov.ie/cesarv/java-microservice/src/master/jenkins/build.sh) provided in this project, but first you need to login into your account:
+A quick way to get your Java Spring Boot Project to Openshift is reusing this convenient [installation script](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/install.sh) provided in this project, but first you need to login into your account:
 
 ```sh
 #Login into Openshift
@@ -48,24 +48,13 @@ oc new-project <your-project>
 oc project <your-project>
 ```
 
-Once you have logged-in and setup your project you can create the pipeline build, but first you need the *HTTP* URL of your git repository:
-
-- **gogs**
-  - ![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gogs-git.PNG)
-
-
-
-- **Gitlab**
- - ![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/gitlab-url.PNG)
-
-
-Once you have the git repository URL you can execute the ``install`` script like this:
+Once you have logged-in and setup your project you can create the pipeline build, but first you need the *HTTP* URL of your git repository then pass it to the ``install`` script like this:
 
 ```sh
 sh jenkins\install.sh <micro-service-name> <git-HTTP-url-to-your-code>
 
 #Example
-sh jenkins\install.sh service-b https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice
+sh jenkins\install.sh service-b https://github.com/cesarvr/Spring-Boot.git
 ```
 
 This will create a Openshift pipeline build which automatically do this:
@@ -74,12 +63,12 @@ This will create a Openshift pipeline build which automatically do this:
 - Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project).
 
 
-![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/service-a.PNG)
+![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/service-a.PNG)
 
 
 ### The Pipeline Is There Now What ?
 
-Once the pipeline is created it will create the [Openshift components](https://github.com/cesarvr/Openshift) ([BuildConfig](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc), Deployment Configuration, Service and Router) to deploy your Spring Boot application. The code to create this components is stored in the root folder Jenkins folder/[build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh) and is invoked by the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32) as part of the build process:
+Once the pipeline is created it will create the [Openshift components](https://github.com/cesarvr/Openshift) ([BuildConfig](#), Deployment Configuration, Service and Router) to deploy your Spring Boot application. The code to create this components is stored in the root folder Jenkins folder/[build.sh](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/build.sh) and is invoked by the [Jenkinsfile](https://github.com/cesarvr/Spring-Boot/blob/master/Jenkinsfile#L32) as part of the build process:
 
 ```groovy
   steps {
@@ -111,25 +100,25 @@ Now we just need to send our self-bootable-server-jar there, we can do this by r
 First generate the JAR:
 
 ```sh
-mvn package #
+mvn package
 ```
 > Before pushing *JAR binaries* to Openshift just keep in mind that the supported OpenJDK version is ``"1.8.0_161``.
 
-Then push the JAR to the [Build Configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) by doing:
+Then push the JAR to the [Build Configuration](#) by doing:
 
 ```sh
  oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar --follow
 ```
 
-> If this command finish successfully, it means that there is an [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) in the cluster with your application.
+> If this command finish successfully, it means that there is an [image](#) in the cluster with your application.
 
-Next step is to deploy this [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) you can do this by doing:
+Next step is to deploy this [image](#) you can do this by doing:
 
 ```sh
 oc rollout latest dc/my-java-app
 ```
 
-![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/deploy.PNG)
+![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/deploy.PNG)
 
 
 > This take the container with your application and creates an instance in one of the ``worker-nodes``.
@@ -138,10 +127,10 @@ To access the application you need to retrieve the URL:
 
 ```sh
 oc get routes  my-java-app -o=jsonpath='{.spec.host}'
-# my-java-app-deleteme-1.apps.rhos.agriculture.gov.ie
+# my-java-service-url
 ```
 
-![](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/java-microservice/raw/master/docs/url.PNG)
+![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/url.PNG)
 > Past the URL in your browser and you should be able to see your application.
 
 ### Re-Deploy
@@ -155,7 +144,7 @@ oc start-build bc/my-java-app --from-file=target\spring-boot-0.0.1-SNAPSHOT.jar 
 > Your changes should be now deployed.
 
 
-### Compiling Our Project In The Cloud
+### Delegating Source Code Compilation To Openshift
 
 Sometimes pushing a binary can be problematic because:
 
@@ -163,18 +152,7 @@ Sometimes pushing a binary can be problematic because:
 - You don't have Maven installed.
 
 
-In those cases you can send your code to the [Build Configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) and make it build it for you.
-
-Before you can do this you should know that cluster access to the internet is constrained by a proxy server, this mean that we need to let the container know about this by adding a ``https_proxy`` [environment variable](https://docs.okd.io/1.2/install_config/http_proxies.html).
-
-```sh
-oc set env bc/my-java-app https_proxy=http://vsdbahlprxy1:8080
-
-# In the unlikely case that you need HTTP unencrypted support...
-oc set env bc/my-java-app http_proxy=http://vsdbahlprxy1:8080
-```
-
-Now assuming you are in your project root folder you can push your source code to the [build configuration](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc):
+In those cases you can send your Spring Boot source code (only Maven supported) to the [Build Configuration](#) by doing this:
 
 ```sh
 oc start-build bc/my-java-app --from-file=. --follow
@@ -185,8 +163,6 @@ Everything from here is the same as the binary version:
 ```sh
 oc rollout latest dc/my-java-app
 ```
-
-
 
 ### Troubleshooting Problems
 
@@ -200,7 +176,7 @@ oc get pod | grep my-java-app
 # my-java-app-2-d6zs4                 1/1       Running     0          8m
 ```
 
-We see here two [container](#appendix) the one with suffix ``build`` means that this container was in charge of the [building process](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#build-configuration-bc) (putting your JAR in place, configuration, etc.). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example:
+We see here two [container](#appendix) the one with suffix ``build`` means that this container was in charge of the [building process](#) (putting your JAR in place, configuration, etc.). The one with suffix ``d6zs4`` (this is random) is the one holding your application, so if something is wrong at runtime you should look for the logs there, for example:
 
 ```sh
 oc log my-java-app-2-d6zs4
@@ -300,8 +276,8 @@ To deploy our code, we can create a new application:
 
 This will create an application by running the following steps:
 
-- **Building** This will basically clone the project, fetch all dependencies and push the [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) the registry.
-- **Deploy** As soon as the [image](https://gogs-luck-ns.apps.rhos.agriculture.gov.ie/cesar/openshift/src/master/Readme.md#image-stream-is) is registered, it will be deploy in the form of a Pod, after that will be ready to accept request.
+- **Building** This will basically clone the project, fetch all dependencies and push the [image](#) the registry.
+- **Deploy** As soon as the [image](#) is registered, it will be deploy in the form of a Pod, after that will be ready to accept request.
 
 #### Expose
 

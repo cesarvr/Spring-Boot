@@ -5,9 +5,6 @@ Table of contents
 <!--ts-->
    * [Getting Your Code Into Jenkins](#getting-your-code-into-jenkins)
    * [Local Development](#local)
-   * [Deploying WAR's](#openshift)
-   * [Configuring Continuous Integration](#continous)
-   * [Openshift Pipeline Integration](#faster)
 <!--te-->
 
 

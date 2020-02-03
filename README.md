@@ -14,14 +14,14 @@ Table of contents
 
 ## Getting Started
 
-#### Tools
+### Tools
 To make your life easier with Openshift you will need some of the tools that are available in Linux, if you are stuck with Windows then there is some ways to get the Linux tools the first option is to use the [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) which is basically Linux [user-space](https://en.wikipedia.org/wiki/User_space) emulated by Windows System calls, this is good enough to do heavy development. Your second option is to use [Cmder](https://cmder.net/) which brings the Linux feeling to your Windows *day-to-day* and include tools such [Cygwin](https://en.wikipedia.org/wiki/Cygwin) (Gnu/Unix popular tools ported to Windows) and [Git](https://en.wikipedia.org/wiki/Git) client.
 
 ![](https://cmder.net/img/main.png)
 
 > Cmder UI
 
-#### Openshift Client
+### Openshift Client
 
 Once you have your *Unix-like* setup, the next step is to the Openshift client which is basically the best way to get Openshift to do stuff for you, to install this tool just get the binary ([Windows](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip), [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) and make it available in your PATH:
 

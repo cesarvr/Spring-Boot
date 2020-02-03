@@ -218,3 +218,6 @@ This will give you a temporary shell inside the container there you can try to e
 <a name="appendix-1"/>
 
 In reality Openshift uses an abstraction called **pod** whose purpose is to facilitate the deployment of one or many containers and made them behave as a single entity (or a single container). [For more information about pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/)
+
+
+[A hard way to run Jenkins](https://github.com/cesarvr/Spring-Boot/blob/master/OLD_README.md)

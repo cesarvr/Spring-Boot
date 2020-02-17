@@ -9,10 +9,13 @@ Table of contents
 
 
 
-## Getting Started
+## Getting A Unix Environment
 
-### Tools
-To make your life easier with Openshift you will need some of the tools that are available in Linux, if you are stuck with Windows then there is some ways to get the Linux tools the first option is to use the [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) which is basically Linux [user-space](https://en.wikipedia.org/wiki/User_space) emulated by Windows System calls, this is good enough to do heavy development. Your second option is to use [Cmder](https://cmder.net/) which brings the Linux feeling to your Windows *day-to-day* and include tools such [Cygwin](https://en.wikipedia.org/wiki/Cygwin) (Gnu/Unix popular tools ported to Windows) and [Git](https://en.wikipedia.org/wiki/Git) client.
+To get the most of the Openshift client (``oc-client``) you need some tools available for Linux, if you are stuck with Windows you have two options: 
+
+- One is to use the [Linux virtualization via Windows WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) which is basically Linux [user-space](https://en.wikipedia.org/wiki/User_space) emulated by Windows System calls.
+
+- Your second option is to use [Cmder](https://github.com/cmderdev/cmder/releases/download/v1.3.14/cmder.zip) which brings the Linux feeling to your Windows *day-to-day* and include tools such [Cygwin](https://en.wikipedia.org/wiki/Cygwin) (Gnu/Unix popular tools ported to Windows), [Git](https://en.wikipedia.org/wiki/Git), tar, etc.
 
 ![](https://cmder.net/img/main.png)
 
@@ -20,18 +23,21 @@ To make your life easier with Openshift you will need some of the tools that are
 
 ### Openshift Client
 
-Once you have your *Unix-like* setup, the next step is to the Openshift client which is basically the best way to get Openshift to do stuff for you, to install this tool just get the binary ([Windows](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip), [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) and make it available in your PATH:
+Once you have your *Unix-like* setup you need to get the ``oc-client``, this will allow you to control Openshift from your command-line. You can get the binary for ([Windows here](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-windows.zip) or [Linux](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)) decompress and add it to your PATH:
 
 ```sh
-set "PATH=%PATH%;<your-oc-cli-folder>\oc-cli"
-```
+# Linux
+export PATH=$PATH:<your-oc-cli-folder>\
 
+# Windows
+set "PATH=%PATH%;<your-oc-cli-folder>\"
+```
 
 <a name="start"/>
 
 ## Getting Your Code Into Jenkins
 
-A quick way to get your Java Spring Boot Project to Openshift is reusing this convenient [installation script](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/install.sh) provided in this project, but first you need to login into your account:
+This Java Spring Boot Project includes a [pipeline installation script](https://github.com/cesarvr/Spring-Boot/blob/master/jenkins/install.sh) that will setup a quick and simple Jenkins Pipeline using Openshift in build pipeline strategy, before using it make sure you are logged in and inside your project: 
 
 ```sh
 #Login into Openshift
@@ -45,7 +51,7 @@ oc new-project <your-project>
 oc project <your-project>
 ```
 
-Once you have logged-in and setup your project you can create the pipeline build, but first you need the *HTTP* URL of your git repository then pass it to the ``install`` script like this:
+Now you can create the pipeline like this:
 
 ```sh
 sh jenkins\install.sh <micro-service-name> <git-HTTP-url-to-your-code>

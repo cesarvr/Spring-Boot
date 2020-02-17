@@ -1,7 +1,9 @@
 def appName = "${params.APPLICATION_NAME}"
 def PROXY   = "${params.PROXY}"
 
-def PROXY_JVM_OPTIONS = "" //"-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
+// If you are behind a proxy uncomment use:
+// def PROXY_JVM_OPTIONS ="-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
+def PROXY_JVM_OPTIONS = "" 
 
 pipeline {
 

@@ -1,7 +1,5 @@
 def appName = "${params.APPLICATION_NAME}"
 def PROXY   = "${params.PROXY}"
-def imageBuildConfig = appName
-def deploymentConfig = appName
 
 def PROXY_JVM_OPTIONS = "" //"-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
 

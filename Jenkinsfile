@@ -55,7 +55,7 @@ pipeline {
       steps {
         script {
           sh "oc rollout latest dc/${appName} || true"
-          sh "oc wait dc/${appName} --for condition=available"
+          sh "oc wait dc/${appName} --for condition=available --timeout=-1s"
          
          
         }

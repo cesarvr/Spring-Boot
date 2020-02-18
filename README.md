@@ -65,8 +65,8 @@ This will create a Openshift pipeline build which automatically do this:
 - Creates (if is doesn't exist) an instance of Jenkins in your namespace/project.  
 - Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project).
 
+![Full process](https://github.com/cesarvr/Spring-Boot/blob/master/docs/cicd.gif?raw=true)
 
-![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/service-a.PNG)
 
 
 ### The Pipeline Is There Now What ?

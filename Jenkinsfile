@@ -13,18 +13,15 @@ pipeline {
 
   stages {
     stage("Creating Openshift Components") {
-      
       steps {
-        echo "Creating Openshift Objects"
         sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
       }
-  }
+    }
 
-
-    stage("Running Test\'s") {
+    stage("Test and Packaging") {
       steps {
         echo "Run unit tests"
-        sh "mvn ${PROXY_JVM_OPTIONS} surefire-report:report"
+        sh "mvn ${PROXY_JVM_OPTIONS} package"
       }
       post {
         always {
@@ -35,13 +32,9 @@ pipeline {
 
     stage('Creating and Deploying Container') {
       steps {
-
-        echo "Trigger image build"
-      script {
-            sh "mvn ${PROXY_JVM_OPTIONS} package"
-            sh "ls target/*.jar"
+        script {
             sh "oc start-build bc/${appName} --from-file=\$(ls target/*.jar) --follow"
-         }
+        }
       }
 
       post {
@@ -56,11 +49,8 @@ pipeline {
         script {
           sh "oc rollout latest dc/${appName} || true"
           sh "oc wait dc/${appName} --for condition=available --timeout=-1s"
-         
-         
         }
       }
     }
-
   }
 }

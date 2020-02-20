@@ -27,4 +27,19 @@ public class HelloControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Greetings from Spring Boot!")));
     }
+
+    @Test
+    public void pong() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/pong").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("Pong!")));
+    }
+
+    @Test
+    public void ping() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/ping").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isServiceUnavailable());
+
+    }
+
 }

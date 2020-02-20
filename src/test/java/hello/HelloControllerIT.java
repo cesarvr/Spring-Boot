@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.net.URL;
 
@@ -33,5 +35,20 @@ public class HelloControllerIT {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
         assertThat(response.getBody().equals("Greetings from Spring Boot!"));
+    }
+
+    @Test
+    public void ping() throws Exception {
+        System.setProperty("PONG_ENDPOINT", "http://localhost:"+ port + "/pong");
+
+        String endpoint = base.toString() + "ping";
+        System.out.println("Testing ping endpoint: " + endpoint);
+        ResponseEntity<String> response = template.getForEntity(endpoint,
+                String.class);
+
+        System.out.println("response: " + response.getBody());
+        assertThat(response.getBody().equals("Ping! Pong!"));
+
+        //System.setProperty("PONG_ENDPOINT", null);
     }
 }

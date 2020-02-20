@@ -4,7 +4,9 @@ Table of contents
 
 <!--ts-->
    * [Getting Your Code Into Jenkins](#getting-your-code-into-jenkins)
-   * [Local Development](#local)
+   * [Local Development](#local-development)
+   * [Debugging A Container](#debugging-a-container)
+   * [Zipkin Instrumentation](#zipkin-instrumentation)
 <!--te-->
 
 
@@ -215,6 +217,114 @@ oc debug my-java-app-2-x664
 ```
 
 This will give you a temporary shell inside the container there you can try to execute manually the JAR and see reproduce the crashing behavior.
+
+
+
+<a name="tracing"/>
+
+## Zipkin Instrumentation
+
+This project also includes [Zipkin](https://zipkin.io/) instrumentation provided by [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) framework which makes instrumentation transparent to your business logic.
+
+To configure the instrumentation you can edit the ``application.properties`` in your resource folder:
+
+```properties
+spring.zipkin.baseUrl = https://my-zipkin-server/
+spring.sleuth.sampler.probability = 1
+spring.sleuth.enabled = true
+
+spring.application.name = hello-ping-1
+```
+
+- ``spring.zipkin.baseUrl``
+  - Is the URL for the [Zipkin server](#).
+- ``sampler.probability``
+  - The value ``1`` tells **sleuth** to [send the traces](https://cloud.spring.io/spring-cloud-sleuth/2.0.x/multi/multi__sampling.html#_sampling_in_spring_cloud_sleuth) to the Zipkin server, while ``0`` just logs the results.
+- ``application.name``
+  - This the name that will appear in the traces.
+
+At the moment this example publish the traces to [this Zipkin server](#), you can do there to observe your service behavior.
+
+### How Do I Test This
+
+To see how it working, you can deploy two services using this particular version:
+
+```sh
+  sh jenkins\install.sh service-a https://github.com/cesarvr/Spring-Boot.git
+  sh jenkins\install.sh service-b https://github.com/cesarvr/Spring-Boot.git
+```
+
+> This will deploy two Spring Boot services ``service-a`` and ``service-b``.
+
+To test the instrumentation I have added two endpoints:
+  - ``ping`` Which make a call to another microservice ``pong`` endpoint (specified by the variable ``PONG_ENDPOINT``) and append the response obtaining (hopefully) ``Ping! Pong!``.
+  - ``pong`` Which just returns ``Pong!``
+
+We need now to configure the ``PONG_ENDPOINT`` in both services and change the ``application.name`` (at the moment they should share the same ``application.name``) in one of them so we can identify the service on Zipkin Dashboard later:
+
+#### Pointing To The Endpoint
+
+First the URL's for the routers of each service:
+
+```sh
+ oc get route
+ # service-a   service-a-my-project.apps.xx.com    service-a   8080                      None
+ # service-b   service-b-my-project.apps.xx.com    service-b   8080                      None
+```
+
+Then setup the ``PONG_ENDPOINT`` of each service to point to its neighbor:
+
+```sh
+ oc set env dc/service-b PONG_ENDPOINT=http://service-a-my-project.apps.xx.com
+ oc set env dc/service-a PONG_ENDPOINT=http://service-b-my-project.apps.xx.com
+```
+
+We should have this graph:
+
+![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/zipkin.PNG)
+
+> When you access the ``/ping`` endpoint to any of this two service it will ask the other service for his ``/pong`` endpoint and will concatenate the returned string and return it back.
+
+
+#### Changing The Name
+
+One thing that is not right yet is that both services are using the same source code although they share the same ``application.properties``. To fix this (assuming that you are running this project locally) you just need to change this value in the ``properties`` file:
+
+```sh
+  application.name = service-b  # from service-a
+```
+
+```sh
+oc get bc
+
+# NAME            TYPE        FROM         LATEST
+# service-a       Source      Binary       2
+# service-b       Source      Binary       2
+
+oc start-build bc/service-b --from-file=. --follow
+oc rollout latest dc/service-b
+```
+
+> In this case we changed the name to service-b and we rebuild the image again.
+
+Generate some traffic:
+
+```sh
+curl http://service-a-my-project.apps.xx.com/ping
+#Ping! Pong!
+curl http://service-a-my-project.apps.xx.com/ping
+#Ping! Pong!
+curl http://service-a-my-project.apps.xx.com/ping
+#Ping! Pong!
+```
+
+And now you can visit your traces here:
+
+![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/tracing.PNG)
+> Global view
+
+![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/tracing-inside.PNG)
+> Debugging a trace
 
 ## Appendix
 

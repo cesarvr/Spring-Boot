@@ -1,4 +1,3 @@
-f
 Table of contents
 =================
 

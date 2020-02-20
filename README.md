@@ -1,4 +1,4 @@
-
+f
 Table of contents
 =================
 
@@ -64,12 +64,12 @@ sh jenkins\install.sh service-b https://github.com/cesarvr/Spring-Boot.git
 
 This will create a Openshift pipeline build which automatically do this:
 
-- Creates (if is doesn't exist) an instance of Jenkins in your namespace/project.  
-- Add this Jenkins Pipeline Script (The ``Jenkinsfile`` included in the root directory of this project).
+- Creates (if there is none) an instance of Jenkins in your namespace/project.  
+- Creates a Job in this instance using the ``Jenkinsfile`` included in the root directory of this project.
 
 ![Full process](https://github.com/cesarvr/Spring-Boot/blob/master/docs/cicd.gif?raw=true)
 
-
+> If there is a Jenkins already deployed in your in the namespace, it will reuse that one.
 
 ### The Pipeline Is There Now What ?
 

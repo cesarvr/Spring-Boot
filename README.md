@@ -167,7 +167,7 @@ oc rollout latest dc/my-java-app
 
 ### Troubleshooting Problems
 
-### Logs
+### Watching The Logs
 
 - If something wrong happens while deploying (like ``oc rollout latest``) you can check the logs of the container by doing:
 

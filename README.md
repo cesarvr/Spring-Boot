@@ -268,11 +268,11 @@ First the URL's for the routers of each service:
  # service-b   service-b-my-project.apps.xx.com    service-b   8080                      None
 ```
 
-Then setup the ``PONG_ENDPOINT`` of each service to point to its neighbor:
+Then setup the ``PONG_ENDPOINT`` of each service to point to its neighbor endpoints ``/pong``:
 
 ```sh
- oc set env dc/service-b PONG_ENDPOINT=http://service-a-my-project.apps.xx.com
- oc set env dc/service-a PONG_ENDPOINT=http://service-b-my-project.apps.xx.com
+ oc set env dc/service-b PONG_ENDPOINT=http://service-a-my-project.apps.xx.com/pong
+ oc set env dc/service-a PONG_ENDPOINT=http://service-b-my-project.apps.xx.com/pong
 ```
 
 We should have this graph:

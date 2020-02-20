@@ -5,4 +5,5 @@ oc create dc $1 --image=$(oc get is $1 -o=jsonpath='{.status.dockerImageReposito
 oc set triggers dc/$1 --from-image=$(oc get is $1 -o=jsonpath='{.status.dockerImageRepository}'):latest || true &&
 oc expose dc $1 --port=8080 -l app=$1 || true &&
 oc expose svc $1 -l app=$1 || true
-oc label dc microservice-a app=$1  #Add our DC to a common label app
+oc label dc $1 app=$1 || true  #Add our DC to a common label app
+oc label bc build-$1 app=$1 || true  #Add our BC to a common label app

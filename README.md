@@ -5,7 +5,7 @@ Table of contents
 <!--ts-->
    * [Getting Your Code Into Jenkins](#getting-your-code-into-jenkins)
    * [Local Development](#local-development)
-   * [Debugging A Container](#debugging-a-container)
+   * [Debugging A Container (Running On OpenShift)](#debugging-a-container)
    * [Zipkin Instrumentation](#zipkin-instrumentation)
 <!--te-->
 
@@ -29,10 +29,10 @@ Once you have your *Unix-like* setup you need to get the ``oc-client``, this wil
 
 ```sh
 # Linux
-export PATH=$PATH:<your-oc-cli-folder>\
+export PATH=$PATH:<your-decompressed-oc-client-folder-location>\
 
 # Windows
-set "PATH=%PATH%;<your-oc-cli-folder>\"
+set "PATH=%PATH%;<your-decompressed-oc-client-folder-location>\"
 ```
 
 <a name="start"/>
@@ -83,10 +83,6 @@ Once the pipeline is created it will create the [Openshift components](https://g
 ```
 
 > The Jenkinsfile is the place that you should start customizing to fit your particular case.
-
-
-
-
 
 <a name="local"/>
 
@@ -201,7 +197,7 @@ Jolokia: Agent started with URL https://10.130.3.218:8778/jolokia/
  :: Spring Boot ::        (v2.2.2.RELEASE)
 ```
 
-### Debug
+### Debugging A Container (Running On OpenShift)
 
 If the pod is crashing continuously you won't have time to see the ``logs`` of the pod, in that case you can use the ``oc-debug`` command to *revive* crashed containers.
 

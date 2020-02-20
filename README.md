@@ -314,13 +314,15 @@ curl http://service-a-my-project.apps.xx.com/ping
 #Ping! Pong!
 ```
 
-And now you can visit your traces here:
+And now you can see your traces in the [Zipkin dashboard](https://zipkin-deployment-ctest.e4ff.pro-eu-west-1.openshiftapps.com/):
 
 ![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/tracing.PNG)
 > Global view
 
 ![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/tracing-inside.PNG)
 > Debugging a trace
+
+> That instance is a test one I have (ephemeral) at the moment if you want to deploy one yourself you can [use this template](https://github.com/cesarvr/zipkin)
 
 ## Appendix
 

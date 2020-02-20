@@ -6,4 +6,4 @@ oc set triggers dc/$1 --from-image=$(oc get is $1 -o=jsonpath='{.status.dockerIm
 oc expose dc $1 --port=8080 -l app=$1 || true &&
 oc expose svc $1 -l app=$1 || true
 oc label dc $1 app=$1 || true  #Add our DC to a common label app
-oc label bc build-$1 app=$1 || true  #Add our BC to a common label app
+#oc label bc build-$1 app=$1 || true  #Add our BC to a common label app

@@ -5,7 +5,7 @@ Table of contents
    * [Getting Your Code Into Jenkins](#getting-your-code-into-jenkins)
    * [Local Development](#local-development)
    * [Debugging A Container (Running On OpenShift)](#debugging-a-container)
-   * [Watch The Logs](#logs)
+   * [Watch The Logs](#watching-the-logs)
    * [Zipkin Instrumentation](#zipkin-instrumentation)
 <!--te-->
 

@@ -220,7 +220,7 @@ This will give you a temporary shell inside the container there you can try to e
 
 ## Zipkin Instrumentation
 
-This project also includes [Zipkin](https://zipkin.io/) instrumentation provided by [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) framework which makes instrumentation transparent to your business logic.  
+This project also includes [Zipkin](https://zipkin.io/) instrumentation provided using [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) framework which makes instrumentation transparent to us.  
 
 You can do basic customization by editing the ``application.properties`` in your resource folder:
 

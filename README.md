@@ -218,11 +218,13 @@ This will give you a temporary shell inside the container there you can try to e
 
 <a name="tracing"/>
 
-## Zipkin Instrumentation
+## Sleuth/Zipkin Instrumentation
 
-This project also includes [Zipkin](https://zipkin.io/) instrumentation provided using [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) framework which makes instrumentation transparent to us.  
+This project also includes [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) which is a framework to implement distributed tracing in a transparent way to the user. Sleuth also support multiple adapters and one of which is [Zipkin](https://github.com/cesarvr/Spring-Boot/blob/master/pom.xml#L69-L72) adapter which send the traces to the central server as we are going to see below. 
 
-You can do basic customization by editing the ``application.properties`` in your resource folder:
+#### Configuration
+
+You can do some basic customization by editing the ``application.properties`` in your resource folder:
 
 ```properties
 spring.zipkin.baseUrl = https://my-zipkin-server/
@@ -233,11 +235,11 @@ spring.application.name = hello-ping-1
 ```
 
 - ``spring.zipkin.baseUrl``
-  - Is the URL for the [Zipkin server](#).
+  - Is the URL for the [Zipkin server](https://zipkin-deployment-ctest.e4ff.pro-eu-west-1.openshiftapps.com/), if you want to spin up your own you can [read this guide](https://github.com/cesarvr/zipkin).
 - ``sampler.probability``
-  - The value ``1`` tells **sleuth** to [send the traces](https://cloud.spring.io/spring-cloud-sleuth/2.0.x/multi/multi__sampling.html#_sampling_in_spring_cloud_sleuth) to the Zipkin server, while ``0`` just logs the results.
+  - Here you can choose a value between 0 and 1, where ``1`` tells **sleuth** to always [send the traces](https://cloud.spring.io/spring-cloud-sleuth/2.0.x/multi/multi__sampling.html#_sampling_in_spring_cloud_sleuth) and ``0`` will just logs the results to the console. For example ``0.5`` means that 50% percent of the time send the traces to the server.
 - ``application.name``
-  - This the name that will appear in the traces.
+  - This the name that identify your service.
 
 ### How Do I Test This
 

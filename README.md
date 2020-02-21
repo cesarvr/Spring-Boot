@@ -1,4 +1,4 @@
-Table of contents
+  Table of contents
 =================
 
 <!--ts-->
@@ -220,9 +220,9 @@ This will give you a temporary shell inside the container there you can try to e
 
 ## Zipkin Instrumentation
 
-This project also includes [Zipkin](https://zipkin.io/) instrumentation provided by [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) framework which makes instrumentation transparent to your business logic.
+This project also includes [Zipkin](https://zipkin.io/) instrumentation provided by [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) framework which makes instrumentation transparent to your business logic.  
 
-To configure the instrumentation you can edit the ``application.properties`` in your resource folder:
+You can do basic customization by editing the ``application.properties`` in your resource folder:
 
 ```properties
 spring.zipkin.baseUrl = https://my-zipkin-server/
@@ -239,11 +239,9 @@ spring.application.name = hello-ping-1
 - ``application.name``
   - This the name that will appear in the traces.
 
-At the moment this example publish the traces to [this Zipkin server](#), you can do there to observe your service behavior.
-
 ### How Do I Test This
 
-To see how it working, you can deploy two services using this particular version:
+To see how this works you can deploy two services using the provided ``install.sh``:
 
 ```sh
   sh jenkins\install.sh service-a https://github.com/cesarvr/Spring-Boot.git
@@ -252,39 +250,39 @@ To see how it working, you can deploy two services using this particular version
 
 > This will deploy two Spring Boot services ``service-a`` and ``service-b``.
 
-To test the instrumentation I have added two endpoints:
-  - ``ping`` Which make a call to another microservice ``pong`` endpoint (specified by the variable ``PONG_ENDPOINT``) and append the response obtaining (hopefully) ``Ping! Pong!``.
-  - ``pong`` Which just returns ``Pong!``
+To test the instrumentation I have added to this project two additional endpoints:
+  - ``/ping`` Which make a call to another microservice ``pong`` endpoint (specified by the variable ``PONG_ENDPOINT``) and append the response obtaining (hopefully) ``Ping! Pong!``.
+  - ``/pong`` Which just returns ``Pong!``
 
-We need now to configure the ``PONG_ENDPOINT`` in both services and change the ``application.name`` (at the moment they should share the same ``application.name``) in one of them so we can identify the service on Zipkin Dashboard later:
-
-#### Pointing To The Endpoint
-
-First the URL's for the routers of each service:
-
-```sh
- oc get route
- # service-a   service-a-my-project.apps.xx.com    service-a   8080                      None
- # service-b   service-b-my-project.apps.xx.com    service-b   8080                      None
-```
-
-Then setup the ``PONG_ENDPOINT`` of each service to point to its neighbor endpoints ``/pong``:
-
-```sh
- oc set env dc/service-b PONG_ENDPOINT=http://service-a-my-project.apps.xx.com/pong
- oc set env dc/service-a PONG_ENDPOINT=http://service-b-my-project.apps.xx.com/pong
-```
-
-We should have this graph:
 
 ![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/zipkin.PNG)
 
-> When you access the ``/ping`` endpoint to any of this two service it will ask the other service for his ``/pong`` endpoint and will concatenate the returned string and return it back.
+> The idea is to create the ``Ping! Pong!`` string by bouncing the calls between them. 
+
+#### Configuration
+
+Let's identify first the URL for each service using ``oc get route``:
+
+```sh
+ oc get route
+ # service-a   service-a.route.com    service-a   8080                      None
+ # service-b   service-b.route.com    service-b   8080                      None
+```
+
+We setup the environment variable ``PONG_ENDPOINT`` to point to the ``/pong`` endpoint of the adjacent service:
+
+```sh
+ oc set env dc/service-b PONG_ENDPOINT=http://service-b.route.com/pong
+ oc set env dc/service-a PONG_ENDPOINT=http://service-a.route.com/pong
+```
 
 
-#### Changing The Name
+> Now we have the most *resource intensive* string concatenation in the world...
 
-One thing that is not right yet is that both services are using the same source code although they share the same ``application.properties``. To fix this (assuming that you are running this project locally) you just need to change this value in the ``properties`` file:
+
+#### Zipkin Identification
+
+One thing that is not right yet is that both services share the same ``application.name`` meaning that they will look the same. To fix this (assuming that you are running this project locally) you just need to change this value in the ``properties`` file:
 
 ```sh
   application.name = service-b  # from service-a
@@ -301,16 +299,16 @@ oc start-build bc/service-b --from-file=. --follow
 oc rollout latest dc/service-b
 ```
 
-> In this case we changed the name to service-b and we rebuild the image again.
+> In this case we changed the name to ``service-b`` and we rebuild the image again.
 
 Generate some traffic:
 
 ```sh
-curl http://service-a-my-project.apps.xx.com/ping
+curl http://service-b.route.com/ping
 #Ping! Pong!
-curl http://service-a-my-project.apps.xx.com/ping
+curl http://service-a.route.com/ping
 #Ping! Pong!
-curl http://service-a-my-project.apps.xx.com/ping
+curl http://service-b.route.com/ping
 #Ping! Pong!
 ```
 

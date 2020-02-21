@@ -6,7 +6,7 @@
    * [Local Development](#local-development)
    * [Debugging A Container (Running On OpenShift)](#debugging-a-container)
    * [Watch The Logs](#watching-the-logs)
-   * [Zipkin Instrumentation](#zipkin-instrumentation)
+   * [Zipkin Instrumentation](#sleuthzipkin-instrumentation)
 <!--te-->
 
 

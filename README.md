@@ -222,7 +222,11 @@ This will give you a temporary shell inside the container there you can try to e
 
 A typical problem with highly distributed systems is that they can be a pain to debug when something goes wrong. To help with this, I included in this project [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) which implement distributed tracing capabilities in a transparent way to the user. 
 
-In addition to Sleuth this project also includes Zipkin ([Sleuth Adapter](https://github.com/cesarvr/Spring-Boot/blob/master/pom.xml#L69-L72)) which basically sends these traces to the [Zipkin server](https://zipkin.io/). This server also includes a dashboard where you can monitor not only the activity of the services, but also their dependencies. 
+In addition to Sleuth this project also includes Zipkin ([Sleuth Adapter](https://github.com/cesarvr/Spring-Boot/blob/master/pom.xml#L69-L72)) which basically sends these traces to the [Zipkin server](https://zipkin.io/). This server also includes a dashboard where you can monitor not only the activity of the services but also their dependencies. 
+
+![Dependencies between services](https://github.com/cesarvr/zipkin/blob/master/docs/zipkin-deps.gif?raw=true)
+
+> Dependencies between services
 
 
 #### Configuration

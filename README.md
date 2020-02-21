@@ -220,10 +220,9 @@ This will give you a temporary shell inside the container there you can try to e
 
 ## Sleuth/Zipkin Instrumentation
 
-This project also includes [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) which is a framework to implement distributed tracing in a transparent way to the user. Sleuth also support multiple adapters and one of which is the [Zipkin](https://github.com/cesarvr/Spring-Boot/blob/master/pom.xml#L69-L72) adapter which send the traces to a central server. 
+A typical problem with highly distributed systems is that they can be a pain to debug when something goes wrong. To help with this, I included in this project [Spring Boot Sleuth](https://spring.io/projects/spring-cloud-sleuth) which implement distributed tracing capabilities in a transparent way to the user. 
 
-To respond to the question of *who-is-call-who* in your cluster you will need of some tools to help you make your services 
-
+In addition to Sleuth this project also includes Zipkin ([Sleuth Adapter]](https://github.com/cesarvr/Spring-Boot/blob/master/pom.xml#L69-L72)) which basically sends these traces to the [Zipkin server](https://zipkin.io/). In this server then, you can visualize the calling graph between your services and have a better idea of what’s happening at any given moment.  
 
 
 #### Configuration

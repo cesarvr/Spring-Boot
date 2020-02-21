@@ -226,7 +226,7 @@ In addition to Sleuth this project also includes Zipkin ([Sleuth Adapter](https:
 
 ![Dependencies between services](https://github.com/cesarvr/zipkin/blob/master/docs/zipkin-deps.gif?raw=true)
 
-> Dependencies between services
+> Watching dependencies between services
 
 
 #### Configuration

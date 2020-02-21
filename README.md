@@ -326,7 +326,7 @@ And now you can see your traces in the [Zipkin dashboard](https://zipkin-deploym
 ![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/tracing.PNG)
 > Global view
 
-![](https://raw.githubusercontent.com/cesarvr/Spring-Boot/master/docs/tracing-inside.PNG)
+![](https://github.com/cesarvr/zipkin/blob/master/docs/zipkin.gif?raw=true)
 > Debugging a trace
 
 > That instance is a test one I have (ephemeral) at the moment if you want to deploy one yourself you can [use this template](https://github.com/cesarvr/zipkin)

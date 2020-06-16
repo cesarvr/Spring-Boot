@@ -1,0 +1,23 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    build: %name% 
+    application: %name% 
+    app: %name% 
+  name: %name% 
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: %name%:latest
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: redhat-openjdk18-openshift:1.5
+        namespace: openshift
+    type: Source

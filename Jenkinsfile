@@ -1,56 +1,35 @@
-def appName = "${params.APPLICATION_NAME}"
-def PROXY   = "${params.PROXY}"
 
-// If you are behind a proxy uncomment use:
-// def PROXY_JVM_OPTIONS ="-DproxySet=true -DproxyHost=${PROXY} -DproxyPort=8080"
-def PROXY_JVM_OPTIONS = "" 
+def MAVEN_CONTAINER = "registry.redhat.io/openshift3/jenkins-agent-maven-35-rhel7:v3.11"
+def JNLP_CONTAINER = 'jnlp'
 
-pipeline {
 
-  agent {
-    label 'maven'
-  }
+/*
+  This creates a container to run your build, as you can see using the default
+  agent has its limitations.
 
-  stages {
-    stage("Creating Openshift Components") {
-      steps {
-        sh "echo creating objects for ${appName} && chmod +x ./jenkins/build.sh && ./jenkins/build.sh ${appName}"
+  For more info: https://cesarvr.io/post/jenkins-container/
+*/
+
+podTemplate(
+  cloud:'openshift', 
+  label: BUILD_TAG,
+/* 
+  Add a Config Map example
+  volumes: [ configMapVolume(configMapName: "mvn-settings", mountPath: "/cfg")],
+*/
+  containers: [ containerTemplate(name: "jnlp", image: MAVEN_CONTAINER) ] ) {
+    node(BUILD_TAG) {
+
+      stage('Clone Repository'){
+        checkout scm
       }
+
+      container(JNLP_CONTAINER) {
+          stage('Run Integration Tests') {
+            
+          }
+      }
+
     }
-
-    stage("Test and Packaging") {
-      steps {
-        echo "Run unit tests"
-        sh "mvn ${PROXY_JVM_OPTIONS} package"
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-        }
-      }
-    }
-
-    stage('Creating and Deploying Container') {
-      steps {
-        script {
-            sh "oc start-build bc/${appName} --from-file=\$(ls target/*.jar) --follow"
-        }
-      }
-
-      post {
-        success {
-          archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
-        }
-      }
-    }
-
-    stage('Deploy') {
-      steps {
-        script {
-          sh "oc rollout latest dc/${appName} || true"
-          sh "oc wait dc/${appName} --for condition=available --timeout=-1s"
-        }
-      }
-    }
-  }
 }
+

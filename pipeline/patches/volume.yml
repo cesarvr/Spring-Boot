@@ -1,0 +1,15 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: default-container
+        volumeMounts: 
+        - name: color
+          mountPath: "/opt/app-root/src/cfg/"
+          readOnly: true
+      volumes:
+      - name: color      # Name of the volumeMount ^^. 
+        configMap:
+          name: colors   # Name of the configmap we created before.
+
+

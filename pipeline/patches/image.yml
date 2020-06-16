@@ -1,0 +1,11 @@
+spec:
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - default-container
+        from:
+          kind: ImageStreamTag
+          name: %name%:latest 
+      type: ImageChange
+    - type: ConfigChange

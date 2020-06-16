@@ -1,0 +1,12 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: default-container
+        readinessProbe: 
+          httpGet:
+            path: /ready,
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10

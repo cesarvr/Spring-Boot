@@ -4,32 +4,38 @@ def JNLP_CONTAINER = 'jnlp'
 
 
 /*
-  This creates a container to run your build, as you can see using the default
-  agent has its limitations.
+   This creates a container to run your build, as you can see using the default
+   agent has its limitations.
 
-  For more info: https://cesarvr.io/post/jenkins-container/
-*/
+   For more info: https://cesarvr.io/post/jenkins-container/
+ */
 
 podTemplate(
-  cloud:'openshift', 
-  label: BUILD_TAG,
-/* 
-  Add a Config Map example
-  volumes: [ configMapVolume(configMapName: "mvn-settings", mountPath: "/cfg")],
-*/
-  containers: [ containerTemplate(name: "jnlp", image: MAVEN_CONTAINER) ] ) {
-    node(BUILD_TAG) {
+    cloud:'openshift', 
+    label: BUILD_TAG,
+    /* 
+       Add a Config Map example
+       volumes: [ configMapVolume(configMapName: "mvn-settings", mountPath: "/cfg")],
+     */
+    containers: [ containerTemplate(name: "jnlp", image: MAVEN_CONTAINER) ] ) {
+  node(BUILD_TAG) {
 
-      stage('Clone Repository'){
-        checkout scm
-      }
-
-      container(JNLP_CONTAINER) {
-          stage('Run Integration Tests') {
-            
-          }
-      }
-
+    stage('Clone Repository'){
+      checkout scm
     }
+
+    container(JNLP_CONTAINER) {
+      stage('Creating Openshift Objects') {
+        sh "python pipeline/deploy.py project=${PROJECT} name=${APPLICATION_NAME}" 
+      }
+        
+      stage("Compile and Testing"){
+        sh   'mvn test package'
+      }
+
+      
+    }
+
+  }
 }
 
